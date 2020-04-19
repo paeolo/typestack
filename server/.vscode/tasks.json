@@ -1,0 +1,48 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build",
+      "type": "shell",
+      "command": "./build.sh",
+      "isBackground": true,
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "echo": false,
+        "reveal": "silent",
+        "clear": true
+      },
+      "problemMatcher": "$tsc-watch"
+    },
+    {
+      "label": "Run",
+      "dependsOn": [
+        "Build"
+      ],
+      "type": "shell",
+      "command": "node",
+      "args": [
+        "-r",
+        "source-map-support/register",
+        "."
+      ],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "presentation": {
+        "clear": true
+      },
+      "problemMatcher": [
+        "$tsc",
+        "$eslint-compact",
+        "$eslint-stylish"
+      ]
+    }
+  ]
+}

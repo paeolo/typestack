@@ -1,0 +1,52 @@
+<%
+const getType = value => {
+  if ('enum' in value && 'title' in value)
+    return value.title
+  else if ('type' in value)
+    return value.type;
+  else if ('title' in value)
+    return value.title;
+  else
+    return 'any';
+}
+-%>
+/*
+** OpenAPI Client - SCHEMAS
+*/
+<%
+Object.entries(openAPI.components.schemas).map(([key, value]) => {
+  if (value.enum === undefined) {
+  let required = value.required;
+-%>
+
+export interface <%= key %> {
+<%
+  Object.entries(value.properties).map(([key, value]) => {
+    let name = key;
+    let type = value.type === 'array' ? getType(value.items).concat('[]') : getType(value);
+    let isRequired = required !== undefined && required.includes(name);
+    if (!isRequired)
+      name = name.concat('?');
+-%>
+  <%= name %>: <%- type %>
+<%
+  })
+-%>
+}
+<%
+  } else {
+-%>
+
+export enum <%= key %> {
+<%
+  for (let enumKey of value.enum) {
+-%>
+  <%= enumKey.toUpperCase() %> = '<%- enumKey %>',
+<%
+  }
+-%>
+}
+<%
+  }
+})
+-%>

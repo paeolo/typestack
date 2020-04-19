@@ -1,0 +1,15 @@
+{
+  "editor.tabCompletion": "on",
+  "editor.tabSize": 2,
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/.git": true,
+    "**/node_modules": true,
+    "*.js": true,
+    "dist": true,
+    "logs": true,
+    "yarn.lock": true,
+  },
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true
+}

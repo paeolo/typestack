@@ -1,0 +1,61 @@
+#
+# Main configuration file
+#
+
+#
+# REST configuration of LOOPBACK
+# See https://loopback.io/doc/en/lb4/Server.html#rest-options
+#
+rest:
+  host: localhost
+  port: 8888
+  basePath: /
+  openApiSpec:
+    disabled: false
+  expressSettings:
+    'trust proxy': true
+
+#
+# REST-EXPLORER configuration
+#
+rest_explorer:
+  path: /explorer
+
+#
+# DATABASE Configuration
+# See https://typeorm.io/#/connection-options
+#
+database:
+  type: postgres
+  synchronize: true
+  host: /var/run/postgresql/
+  port: 5432
+  username: postgres
+  database: postgres
+  
+#
+# JWT TOKEN
+# The secret is used to sign the token,
+# In production, make sure it's length is greater than 64,
+#
+# expiresIn set the token lifetime.
+# See https://github.com/zeit/ms for time formats.
+#
+jwt:
+  secret: 'MY_SECRET'
+  expiresIn:
+    AUTH_ACCESS: '6 hours'
+    AUTH_REFRESH: '90 days'
+
+#
+# LOGGER Configuration
+# The level shoud be debug|info|warn|error
+# 
+# Set stack_trace to true if you want to print stack_trace
+# in the console.
+# They will be logged in the error.log file anyway.
+#
+logger:
+  level: debug
+  stack_trace: true
+
