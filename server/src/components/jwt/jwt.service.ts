@@ -1,7 +1,7 @@
 import { inject } from '@loopback/core';
-import { HttpErrors, Response } from '@loopback/rest';
+import { HttpErrors, Response, Request } from '@loopback/rest';
 import { securityId, UserProfile } from '@loopback/security';
-import { Repository, MoreThan, LessThan } from 'typeorm';
+import { Repository, LessThan } from 'typeorm';
 import { Logger } from 'winston';
 
 import jwt from 'jsonwebtoken';
@@ -91,6 +91,12 @@ export class JWTService {
         httpOnly: true
       });
     }
+  }
+
+  public async revokeFromCookie(type: TokenType, request: Request) {
+    let token: string = request.cookies[type];
+    if (token !== undefined && token.length > 0)
+      await this.revoke(token);
   }
 
   public async revoke(token: string) {

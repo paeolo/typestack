@@ -176,10 +176,7 @@ export class UserController {
   ) {
     this.jwt.removeFromCookie(
       [TokenType.AUTH_ACCESS, TokenType.AUTH_REFRESH], response);
-
-    let token: string = request.cookies[TokenType.AUTH_REFRESH];
-    if (token !== undefined && token.length > 0)
-      await this.jwt.revoke(token);
+    await this.jwt.revokeFromCookie(TokenType.AUTH_REFRESH, request);
   }
 
   /**
