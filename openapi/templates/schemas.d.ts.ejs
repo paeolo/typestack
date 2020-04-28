@@ -15,8 +15,22 @@ const getType = value => {
 */
 <%
 Object.entries(openAPI.components.schemas).map(([key, value]) => {
-  if (value.enum === undefined) {
   let required = value.required;
+  if (value.enum !== undefined) {
+-%>
+
+export enum <%= key %> {
+<%
+  for (let enumKey of value.enum) {
+-%>
+  <%= enumKey.toUpperCase() %> = '<%- enumKey %>',
+<%
+  }
+-%>
+}
+<%
+  }
+  else {
 -%>
 
 export interface <%= key %> {
@@ -31,19 +45,6 @@ export interface <%= key %> {
   <%= name %>: <%- type %>
 <%
   })
--%>
-}
-<%
-  } else {
--%>
-
-export enum <%= key %> {
-<%
-  for (let enumKey of value.enum) {
--%>
-  <%= enumKey.toUpperCase() %> = '<%- enumKey %>',
-<%
-  }
 -%>
 }
 <%

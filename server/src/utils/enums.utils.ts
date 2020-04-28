@@ -21,7 +21,7 @@ export function propertyEnum(enumName: string, enumType: Object) {
   });
 }
 
-export function ArrayEnum(enumName: string, enumType: Object) {
+export function arrayEnum(enumName: string, enumType: Object) {
   return property.array({
     type: ResolverForEnum(enumName, enumType)
   });
