@@ -1,31 +1,18 @@
-import { Request, RestBindings, get, ResponseObject } from '@loopback/rest';
+import { Request, RestBindings, get } from '@loopback/rest';
+import { model, property } from '@loopback/repository';
 import { inject } from '@loopback/context';
+import { Returns } from '../utils';
 
 /**
  * OpenAPI response for ping()
  */
-const PING_RESPONSE: ResponseObject = {
-  description: 'Ping Response',
-  content: {
-    'application/json': {
-      schema: {
-        type: 'object',
-        properties: {
-          greeting: { type: 'string' },
-          date: { type: 'string' },
-          url: { type: 'string' },
-          headers: {
-            type: 'object',
-            properties: {
-              'Content-Type': { type: 'string' },
-            },
-            additionalProperties: false,
-          },
-        },
-      },
-    },
-  },
-};
+@model()
+class PingResponse {
+  @property() greeting: string;
+  @property() date: string;
+  @property() url: string;
+  @property() headers: object
+}
 
 export class PingController {
   constructor(@inject(RestBindings.Http.REQUEST) private req: Request) { }
@@ -33,12 +20,8 @@ export class PingController {
   /**
   ** A simple endpoint to bounce back http requests
   **/
-  @get('/ping', {
-    responses: {
-      '200': PING_RESPONSE,
-    },
-  })
-  ping(): object {
+  @get('/ping', Returns(PingResponse))
+  ping() {
     return {
       greeting: 'Hello from LoopBack',
       date: new Date(),
