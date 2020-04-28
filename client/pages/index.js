@@ -3,10 +3,10 @@ import React, { Component } from 'react';
 export default class IndexPage extends Component {
   state = {
     response: {},
-  };  async componentDidMount() {
+  }; async componentDidMount() {
     const response = await (await fetch('/api/ping')).json();
     this.setState({ response });
-  }  render() {
+  } render() {
     return (
       <div>
         <p>Welcome to next.js!</p>
