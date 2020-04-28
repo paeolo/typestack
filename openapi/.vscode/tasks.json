@@ -4,7 +4,7 @@
     {
       "label": "Build",
       "type": "shell",
-      "command": "yarn npm-run-all build:server:codegen build:server:openapi",
+      "command": "yarn build:codegen",
       "options": {
         "cwd": ".."
       },

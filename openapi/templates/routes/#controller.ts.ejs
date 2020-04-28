@@ -78,7 +78,7 @@ for (let route of routes) {
     return new Promise<<%- returnType %>>(async (resolve, reject) => {
       try {
       const response = await request
-        .<%- route.operationType %>(OpenAPI.URL + <%- path %>)
+        .<%- route.operationType %>(OpenAPI.options.url + <%- path %>)
       <%_ if ('requestBody' in operation) { _%>
         .send(value)
       <%_ } if (contentType !== undefined) { _%>

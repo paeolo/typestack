@@ -3,17 +3,16 @@
   "license": "MIT",
   "scripts": {
     "build:client": "next build client",
-    "build:server": "npm-run-all clean:server build:server:*",
-    "build:server:loopback": "lb-tsc --outDir server/dist -p server",
-    "build:server:codegen": "node server/dist/codegen",
-    "build:server:openapi": "tsc --outDir openapi/dist -p openapi",
-    "clean:server": "rm -rf server/dist && rm -rf openapi/dist",
+    "clean:server": "rm -rf server/dist",
+    "build:loopback": "lb-tsc --outDir server/dist -p server",
+    "build:codegen": "node server/dist/codegen",
+    "build:server": "npm-run-all clean:server build:loopback build:codegen",
     "build": "npm-run-all build:server build:client",
     "dev": "NODE_ENV=development node .",
     "dev:client": "NODE_ENV=development node client",
     "start": "node .",
-    "start:server": "node server",
     "start:client": "node client",
+    "start:server": "node server",
     "heroku-postbuild": "yarn build"
   },
   "dependencies": {

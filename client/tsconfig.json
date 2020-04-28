@@ -6,6 +6,12 @@
       "dom.iterable",
       "esnext"
     ],
+    "baseUrl": ".",
+    "paths": {
+      "@openapi/*": [
+        "../openapi/*"
+      ]
+    },
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -26,6 +32,5 @@
     "**/*.ts",
     "**/*.tsx"
   ],
-  "extends": "./tsconfig.path.json"
 }
 
