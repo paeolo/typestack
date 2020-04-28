@@ -2,23 +2,23 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Build",
+      "label": "Run",
       "type": "shell",
-      "command": "yarn npm-run-all build:server:codegen build:server:openapi",
+      "command": "yarn dev:client",
       "options": {
         "cwd": ".."
       },
+      "isBackground": true,
       "group": {
-        "kind": "build",
+        "kind": "test",
         "isDefault": true
       },
       "presentation": {
-        "echo": false,
-        "reveal": "silent",
         "clear": true
       },
-      "problemMatcher": "$tsc"
-    },
+      "problemMatcher": [
+        "$tsc-watch",
+      ]
+    }
   ]
 }
-

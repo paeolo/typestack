@@ -1,6 +1,6 @@
 {
   "$schema": "http://json.schemastore.org/tsconfig",
-  "extends": "@loopback/build/config/tsconfig.common.json",
+  "extends": "../node_modules/@loopback/build/config/tsconfig.common.json",
   "compilerOptions": {
     "outDir": "dist"
   },

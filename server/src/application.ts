@@ -81,7 +81,7 @@ export class LBApplication extends BootMixin(RestApplication) {
   private setupOpenAPI() {
     if (!this.config.rest.openApiSpec.disabled) {
       this.bind(RestExplorerBindings.CONFIG).to({
-        path: this.config.rest_explorer.path
+        path: '/explorer'
       });
       this.component(RestExplorerComponent);
     }

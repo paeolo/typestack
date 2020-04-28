@@ -9,17 +9,10 @@
 rest:
   host: localhost
   port: 8888
-  basePath: /
   openApiSpec:
     disabled: false
   expressSettings:
     'trust proxy': true
-
-#
-# REST-EXPLORER configuration
-#
-rest_explorer:
-  path: /explorer
 
 #
 # DATABASE Configuration

@@ -4,20 +4,20 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "LAUNCH",
+      "name": "Launch",
       "program": "${workspaceFolder}/index.js"
     },
     {
       "type": "node",
       "request": "attach",
-      "name": "ATTACH",
+      "name": "Attach",
       "port": 9229,
       "restart": true
     },
     {
       "type": "node",
       "request": "launch",
-      "name": "CODEGEN",
+      "name": "Codegen",
       "program": "${workspaceFolder}/dist/codegen/index.js"
     },
   ]
