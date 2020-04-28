@@ -13,6 +13,7 @@
     "dev:client": "NODE_ENV=development node client",
     "start": "node .",
     "start:server": "node server",
+    "start:client": "node client",
     "heroku-postbuild": "yarn build"
   },
   "dependencies": {
@@ -24,6 +25,7 @@
     "bcrypt": "^4.0.1",
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
+    "http-proxy-middleware": "^1.0.3",
     "jsonwebtoken": "^8.5.1",
     "next": "^9.3.5",
     "pg": "^8.0.2",
@@ -48,7 +50,6 @@
     "@types/superagent": "^4.1.7",
     "ejs": "^3.0.2",
     "fs-extra": "^9.0.0",
-    "http-proxy-middleware": "^1.0.3",
     "json-schema-ref-parser": "^8.0.0",
     "klaw": "^3.0.0",
     "npm-run-all": "^4.1.5"
