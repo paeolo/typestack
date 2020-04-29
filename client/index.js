@@ -36,7 +36,6 @@ const main = async ()  => {
     '/api',
     createProxyMiddleware({
       target: `http://${api.host}:${api.port}`,
-      ws: true,
       pathRewrite: {'^/api' : ''}
     })
   );
