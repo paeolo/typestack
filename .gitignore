@@ -10,7 +10,7 @@
 
 # production
 /logs
-/config.yaml
+/config.env
 
 # misc
 .DS_Store

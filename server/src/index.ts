@@ -7,7 +7,7 @@ import path from 'path';
 
 export async function main() {
 
-  dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+  dotenv.config({ path: path.resolve(__dirname, '../../config.env') });
   const app = new LBApplication();
 
   await app.boot();

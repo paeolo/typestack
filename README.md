@@ -1,30 +1,18 @@
 # Typestack
-A Typescript starter based on NextJS and Loopback.
+A Typescript starter based on NextJS and Loopback 4.
 
-## API
-The API is written in the Loopback 4 Framework: https://loopback.io/doc/en/lb4/.
-It provides Dependency Injection, OpenAPI and Express routes.
+## What's inside?
+- A mono-repository with NextJS and Loopback 4 preconfigured.
+- A codegen script to link front and back based on openAPI.
+- Some components in the back-end like authentication, authorization, typeORM and logging facilities.
 
-This starter comes with some ready to use components:
-
-### Logger
-The logger component use Winston: https://github.com/winstonjs/winston.
-
-### Authentication/Authorization
-Basic Authentication is implemented with JWT and @loopback/authentication.
-Authorization is implemented with @loopback/authorization
-
-### TypeORM
-The ORM is TypeORM: https://typeorm.io/#/
-
-### CodeGEN
-You describe your API using LB4 decorators, then a custom script generate a client in the openAPI folder.
-
-## Client
-The client is provided by the NextJS and React Framework. It uses the OpenAPI client to communicate with the API.
+## Dependencies
+- NodeJS
+- Yarn
+- PostgreSQL
 
 ## Get started
-* cp config-files/config.yaml .
+* cp config-files/config.env .
 * yarn install && yarn build && yarn dev
 * Take a coffee and code.
 
