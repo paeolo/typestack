@@ -16,11 +16,10 @@ import {
   LoggerInfoProvider,
   LoggerActionProvider,
   LoggerErrorProvider,
-  LOGGER_LEVEL
 } from '../logger';
 
 export type LoggingComponentOptions = {
-  level: LOGGER_LEVEL,
+  level: string,
   directory: string,
   stack_trace: boolean
 };
@@ -29,8 +28,8 @@ export type TransportFactory = (config: LoggingComponentOptions) => Transport;
 
 export type LoggingComponentConfig = {
   options: LoggingComponentOptions,
-  default_transports: TransportFactory[],
-  invoke_transports: TransportFactory[]
+  default: TransportFactory[],
+  invoke: TransportFactory[]
 };
 
 @bind({ tags: { [ContextTags.KEY]: LoggingBindings.COMPONENT } })
@@ -52,10 +51,10 @@ export class LoggingComponent implements Component {
   private setupBindings(config: LoggingComponentConfig) {
     this.bindings = [
       Binding.bind(LoggingBindings.LOGGER).to(createLogger({
-        transports: config.default_transports.map(value => value(config.options))
+        transports: config.default.map(value => value(config.options))
       })),
       Binding.bind(LoggingBindings.INVOKE_LOGGER).to(createLogger({
-        transports: config.invoke_transports.map(value => value(config.options))
+        transports: config.invoke.map(value => value(config.options))
       }))
     ];
   }

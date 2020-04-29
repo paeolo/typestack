@@ -33,7 +33,7 @@ export class TypeOrmComponent implements Component, LifeCycleObserver {
       let entities = typeOrmConfig.connectionOptions.entities;
       if (typeOrmConfig.entities !== undefined) {
         entities = typeOrmConfig.entities
-          .map(value => path.join('dist', value));
+          .map(value => path.resolve(__dirname, '../../', value));
       }
       let options = {
         ...typeOrmConfig.connectionOptions,

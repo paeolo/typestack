@@ -25,12 +25,10 @@
         "Build"
       ],
       "type": "shell",
-      "command": "node",
-      "args": [
-        "-r",
-        "source-map-support/register",
-        "."
-      ],
+      "command": "yarn dev:server",
+      "options": {
+        "cwd": ".."
+      },
       "group": {
         "kind": "test",
         "isDefault": true

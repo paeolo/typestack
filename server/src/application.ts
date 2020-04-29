@@ -1,62 +1,58 @@
 import { AuthenticationComponent } from '@loopback/authentication';
+import { BootMixin } from '@loopback/boot';
+import { CoreBindings } from '@loopback/core';
 import {
   AuthorizationComponent,
   AuthorizationBindings,
   AuthorizationOptions,
   AuthorizationDecision
 } from '@loopback/authorization';
-import { BootMixin } from '@loopback/boot';
-import { CoreBindings } from '@loopback/core';
-import { RestApplication } from '@loopback/rest';
-
+import {
+  RestApplication,
+  RestServerConfig
+} from '@loopback/rest';
 import {
   RestExplorerBindings,
   RestExplorerComponent
 } from '@loopback/rest-explorer';
 
 import path from 'path';
-import fs from 'fs';
-import YAML from 'yaml';
-
+import { ConnectionOptions } from 'typeorm';
 import { MainSequence } from './sequence';
-
 import {
   TypeOrmConfig,
   TypeOrmBindings,
   TypeOrmComponent,
-} from './components/typeorm';
-
-import {
   LoggingBindings,
   LoggingComponent,
   LoggingComponentConfig,
+  LoggingComponentOptions,
+  LOGGER_LEVEL,
   DefaultFactory,
-  InvokeFactory
-} from './components/logger';
-
-import {
+  InvokeFactory,
   SECURITY_SCHEME_SPEC,
   JWTComponentConfig,
   JWTBindings,
-  JWTComponent
-} from './components/jwt';
+  JWTComponent,
+  AuthorizationPolicyComponent,
+} from './components';
+import { NodeENV } from './utils';
 
-import {
-  AuthorizationConfig,
-  AuthorizationPolicyComponent
-} from './components/authorization';
+export type LBApplicationConfig = {
+  rest: RestServerConfig,
+  database: ConnectionOptions,
+  logger: LoggingComponentOptions,
+  jwt: JWTComponentConfig
+};
 
 export class LBApplication extends BootMixin(RestApplication) {
 
-  private config: any;
+  private config: LBApplicationConfig;
 
   constructor() {
     super();
     this.projectRoot = __dirname;
-    this.config = YAML.parse(
-      fs.readFileSync(path.join(__dirname, '../../config.yaml')).toString()
-    );
-
+    this.setupConfig();
     this.bind(CoreBindings.APPLICATION_CONFIG).to(this.config);
 
     this.sequence(MainSequence);
@@ -70,6 +66,39 @@ export class LBApplication extends BootMixin(RestApplication) {
     this.setupComponents();
   }
 
+  private setupConfig() {
+    this.config = {
+      rest: {
+        host: process.env.API_HOST || 'localhost',
+        port: Number.parseInt(process.env.API_PORT || '8888'),
+        openApiSpec: {
+          disabled: process.env.NODE_ENV !== NodeENV.DEVELOPMENT || undefined,
+        },
+      },
+      database: {
+        type: 'postgres',
+        synchronize: true,
+        host: process.env.DB_HOST || 'localhost',
+        port: Number.parseInt(process.env.DB_PORT || '5432'),
+        username: process.env.DB_USER,
+        database: process.env.DB_DATABASE,
+        password: process.env.DB_PASSWORD
+      },
+      logger: {
+        directory: process.env.LOG_DIRECTORY || path.join(__dirname, '../../logs'),
+        level: process.env.LOG_LEVEL || LOGGER_LEVEL.INFO,
+        stack_trace: process.env.NODE_ENV === NodeENV.DEVELOPMENT
+      },
+      jwt: {
+        secret: process.env.JWT_SECRET || 'MY_SECRET',
+        expiresIn: {
+          AUTH_ACCESS: process.env.AUTH_ACCESS_EXPIRES || '6 hours',
+          AUTH_REFRESH: process.env.AUTH_REFRESH_EXPIRES || '90 days'
+        }
+      }
+    }
+  }
+
   private setupComponents() {
     this.setupOpenAPI();
     this.setupTypeORM();
@@ -79,7 +108,7 @@ export class LBApplication extends BootMixin(RestApplication) {
   }
 
   private setupOpenAPI() {
-    if (!this.config.rest.openApiSpec.disabled) {
+    if (process.env.NODE_ENV === NodeENV.DEVELOPMENT) {
       this.bind(RestExplorerBindings.CONFIG).to({
         path: '/explorer'
       });
@@ -98,23 +127,16 @@ export class LBApplication extends BootMixin(RestApplication) {
 
   private setupLoggingComponent() {
     this.configure<LoggingComponentConfig>(LoggingBindings.COMPONENT).to({
-      options: {
-        directory: path.join(__dirname, '../../logs'),
-        level: this.config.logger.level,
-        stack_trace: this.config.logger.stack_trace
-      },
-      invoke_transports: [InvokeFactory.createConsole],
-      default_transports: [DefaultFactory.createConsole],
+      options: this.config.logger,
+      invoke: [InvokeFactory.createConsole],
+      default: [DefaultFactory.createConsole],
     });
     this.component(LoggingComponent);
   }
 
   private setupJWTComponent() {
     this.configure<JWTComponentConfig>(JWTBindings.COMPONENT)
-      .to({
-        secret: this.config.jwt.secret,
-        expiresIn: this.config.jwt.expiresIn
-      });
+      .to(this.config.jwt);
     this.component(AuthenticationComponent);
     this.component(JWTComponent);
   }

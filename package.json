@@ -3,17 +3,16 @@
   "license": "MIT",
   "scripts": {
     "build:client": "next build client",
-    "clean:server": "rm -rf server/dist",
+    "build:server": "npm-run-all build:loopback build:codegen",
     "build:loopback": "lb-tsc --outDir server/dist -p server",
-    "build:codegen": "node server/dist/codegen",
-    "build:server": "npm-run-all clean:server build:loopback build:codegen",
+    "build:codegen": "node ./server/dist/codegen",
     "build": "npm-run-all build:server build:client",
     "dev": "NODE_ENV=development node .",
     "dev:client": "NODE_ENV=development node client",
+    "dev:server": "NODE_ENV=development node server",
     "start": "node .",
     "start:client": "node client",
-    "start:server": "node server",
-    "heroku-postbuild": "yarn build"
+    "start:server": "node server"
   },
   "dependencies": {
     "@loopback/authentication": "^4.1.3",
@@ -23,6 +22,7 @@
     "@loopback/rest-explorer": "^2.0.4",
     "bcrypt": "^4.0.1",
     "cookie-parser": "^1.4.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "http-proxy-middleware": "^1.0.3",
     "jsonwebtoken": "^8.5.1",
