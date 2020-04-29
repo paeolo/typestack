@@ -3,8 +3,11 @@
 */
 
 import { OpenAPI } from "@openapi/.";
+import getConfig from 'next/config'
 
-OpenAPI.options.url = 'http://localhost:3000/api';
+const { publicRuntimeConfig } = getConfig()
+
+OpenAPI.options.url = publicRuntimeConfig.apiURL;
 
 export default ({ Component, pageProps }) => {
   return <Component {...pageProps} />

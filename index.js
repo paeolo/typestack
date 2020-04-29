@@ -1,20 +1,17 @@
 // ./index.js
 
 const express = require('express');
+const nextjs = require('./client');
+const loopback = require('./server/dist/');
 
-const clientApp = require('./client');
-const apiApp = require('./server/dist/');
-
-const main = async ()  => {
+const main = async () => {
   const dev = process.env.NODE_ENV === 'development';
   const port = process.env.PORT || 3000;
 
-  let client = await clientApp(dev,'client');
-  const api = await apiApp.main();
-    
-  // Express
+  await loopback.main();
+  const client = await nextjs(dev, 'client');
+
   const server = express();
-  server.use('/api', api.requestHandler);
   server.use(express.static('client/static'));
   server.get('*', (req, res) => client.getRequestHandler()(req, res));
   server.listen(port, err => {
@@ -25,9 +22,8 @@ const main = async ()  => {
 
 if (require.main === module) {
   main()
-  .catch(err => {
-    console.error('Cannot start the application.', err);
-    process.exit(1);
-  })
+    .catch(err => {
+      console.error('Cannot start the application.', err);
+      process.exit(1);
+    })
 }
-
