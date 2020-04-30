@@ -1,8 +1,10 @@
 // ./index.js
 
+const dotenv = require('dotenv');
 const express = require('express');
-const nextjs = require('./client');
 const loopback = require('./server/dist/');
+const nextjs = require('./client');
+const path = require('path');
 
 const main = async () => {
   const dev = process.env.NODE_ENV === 'development';
@@ -22,6 +24,7 @@ const main = async () => {
 }
 
 if (require.main === module) {
+  dotenv.config({ path: path.resolve(__dirname, 'config.env') });
   main()
     .catch(err => {
       console.error('Cannot start the application.', err);

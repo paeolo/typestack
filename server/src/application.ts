@@ -54,7 +54,9 @@ export class LBApplication extends BootMixin(RestApplication) {
   }
 
   private setupConfig() {
-    const required = ['DB_HOST', 'DB_USER', 'DB_DATABASE', 'JWT_SECRET'];
+    const required = [
+      'API_HOST', 'API_PORT', 'DB_HOST', 'DB_USER', 'DB_DATABASE', 'JWT_SECRET'
+    ];
     for (let key of required) {
       if (process.env[key] === undefined)
         throw new Error(`Environment variable ${key} is undefined`);

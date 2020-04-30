@@ -2,12 +2,8 @@ import { LBApplication } from './application';
 import { RestBindings } from '@loopback/rest';
 import { LoggingBindings } from './components/logger';
 
-import dotenv from 'dotenv';
-import path from 'path';
-
 export async function main() {
 
-  dotenv.config({ path: path.resolve(__dirname, '../../config.env') });
   const app = new LBApplication();
 
   await app.boot();

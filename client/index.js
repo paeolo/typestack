@@ -5,10 +5,9 @@ const express = require('express');
 const next = require('next');
 const path = require('path');
 
+const { createProxyMiddleware } = require('http-proxy-middleware');
+
 const application = async (dev, directory) => {
-  dotenv.config({
-    path: path.resolve(__dirname, '../config.env')
-  });
   const nextjs = next({ dev: dev, dir: directory });
   await nextjs.prepare();
   return nextjs;
@@ -22,6 +21,19 @@ const main = async () => {
   const handler = nextjs.getRequestHandler();
 
   const server = express();
+  if (dev) {
+    const api = {
+      host: process.env.API_HOST,
+      port: process.env.API_PORT
+    };
+    server.use(
+      '/api',
+      createProxyMiddleware({
+        target: `http://${api.host}:${api.port}`,
+        pathRewrite: { '^/api': '' }
+      })
+    );
+  }
   server.use(express.static(`./static`));
   server.get('*', (req, res) => handler(req, res));
   server.listen(port, err => {
@@ -33,6 +45,7 @@ const main = async () => {
 module.exports = application;
 
 if (require.main === module) {
+  dotenv.config({ path: path.resolve(__dirname, '../config.env') });
   main()
     .catch(err => {
       console.error('Cannot start the application.', err);

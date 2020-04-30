@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
-import { User, UserRole } from '@openapi/schemas';
+import { User } from '@openapi/schemas';
 import { UserController } from '@openapi/routes';
 
 const IndexPage = () => {
 
-  console.log(UserRole.ADMIN);
   const [user, setUser] = useState({} as User);
 
   const getUser = async () => {
