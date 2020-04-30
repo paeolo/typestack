@@ -9,7 +9,6 @@ import {
 } from '@loopback/authorization';
 import {
   RestApplication,
-  RestServerConfig
 } from '@loopback/rest';
 import {
   RestExplorerBindings,
@@ -17,7 +16,6 @@ import {
 } from '@loopback/rest-explorer';
 
 import path from 'path';
-import { ConnectionOptions } from 'typeorm';
 import { MainSequence } from './sequence';
 import {
   TypeOrmConfig,
@@ -26,7 +24,6 @@ import {
   LoggingBindings,
   LoggingComponent,
   LoggingComponentConfig,
-  LoggingComponentOptions,
   LOGGER_LEVEL,
   DefaultFactory,
   InvokeFactory,
@@ -38,23 +35,13 @@ import {
 } from './components';
 import { NodeENV } from './utils';
 
-export type LBApplicationConfig = {
-  rest: RestServerConfig,
-  database: ConnectionOptions,
-  logger: LoggingComponentOptions,
-  jwt: JWTComponentConfig
-};
-
 export class LBApplication extends BootMixin(RestApplication) {
-
-  private config: LBApplicationConfig;
 
   constructor() {
     super();
     this.projectRoot = __dirname;
-    this.setupConfig();
-    this.bind(CoreBindings.APPLICATION_CONFIG).to(this.config);
 
+    this.setupConfig();
     this.sequence(MainSequence);
     this.api({
       openapi: '3.0.0',
@@ -67,36 +54,20 @@ export class LBApplication extends BootMixin(RestApplication) {
   }
 
   private setupConfig() {
-    this.config = {
+    const required = ['DB_HOST', 'DB_USER', 'DB_DATABASE', 'JWT_SECRET'];
+    for (let key of required) {
+      if (process.env[key] === undefined)
+        throw new Error(`Environment variable ${key} is undefined`);
+    }
+    this.bind(CoreBindings.APPLICATION_CONFIG).to({
       rest: {
-        host: process.env.API_HOST || 'localhost',
+        host: process.env.API_HOST,
         port: Number.parseInt(process.env.API_PORT || '8888'),
         openApiSpec: {
           disabled: process.env.NODE_ENV !== NodeENV.DEVELOPMENT || undefined,
         },
       },
-      database: {
-        type: 'postgres',
-        synchronize: true,
-        host: process.env.DB_HOST || 'localhost',
-        port: Number.parseInt(process.env.DB_PORT || '5432'),
-        username: process.env.DB_USER,
-        database: process.env.DB_DATABASE,
-        password: process.env.DB_PASSWORD
-      },
-      logger: {
-        directory: process.env.LOG_DIRECTORY || path.join(__dirname, '../../logs'),
-        level: process.env.LOG_LEVEL || LOGGER_LEVEL.INFO,
-        stack_trace: process.env.NODE_ENV === NodeENV.DEVELOPMENT
-      },
-      jwt: {
-        secret: process.env.JWT_SECRET || 'MY_SECRET',
-        expiresIn: {
-          AUTH_ACCESS: process.env.AUTH_ACCESS_EXPIRES || '6 hours',
-          AUTH_REFRESH: process.env.AUTH_REFRESH_EXPIRES || '90 days'
-        }
-      }
-    }
+    });
   }
 
   private setupComponents() {
@@ -118,7 +89,15 @@ export class LBApplication extends BootMixin(RestApplication) {
 
   private setupTypeORM() {
     this.configure<TypeOrmConfig[]>(TypeOrmBindings.COMPONENT).to([{
-      connectionOptions: this.config.database,
+      connectionOptions: {
+        type: 'postgres',
+        synchronize: true,
+        host: process.env.DB_HOST,
+        port: Number.parseInt(process.env.DB_PORT || '5432'),
+        username: process.env.DB_USER,
+        database: process.env.DB_DATABASE,
+        password: process.env.DB_PASSWORD
+      },
       entities: ['entity/*.js']
     }
     ]);
@@ -127,7 +106,11 @@ export class LBApplication extends BootMixin(RestApplication) {
 
   private setupLoggingComponent() {
     this.configure<LoggingComponentConfig>(LoggingBindings.COMPONENT).to({
-      options: this.config.logger,
+      options: {
+        directory: process.env.LOG_DIRECTORY || path.join(__dirname, '../../logs'),
+        level: process.env.LOG_LEVEL || LOGGER_LEVEL.INFO,
+        stack_trace: process.env.NODE_ENV === NodeENV.DEVELOPMENT
+      },
       invoke: [InvokeFactory.createConsole],
       default: [DefaultFactory.createConsole],
     });
@@ -136,7 +119,13 @@ export class LBApplication extends BootMixin(RestApplication) {
 
   private setupJWTComponent() {
     this.configure<JWTComponentConfig>(JWTBindings.COMPONENT)
-      .to(this.config.jwt);
+      .to({
+        secret: process.env.JWT_SECRET || 'MY_SECRET',
+        expiresIn: {
+          AUTH_ACCESS: process.env.AUTH_ACCESS_EXPIRES || '6 hours',
+          AUTH_REFRESH: process.env.AUTH_REFRESH_EXPIRES || '90 days'
+        }
+      });
     this.component(AuthenticationComponent);
     this.component(JWTComponent);
   }
