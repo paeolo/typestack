@@ -1,22 +1,29 @@
 import React, { useState, useEffect } from 'react';
 
-import { PingResponse } from '@openapi/schemas';
-import { PingController } from '@openapi/routes';
+import { User, UserRole } from '@openapi/schemas';
+import { UserController } from '@openapi/routes';
 
 const IndexPage = () => {
-  const [response, setResponse] = useState({} as PingResponse);
+
+  console.log(UserRole.ADMIN);
+  const [user, setUser] = useState({} as User);
+
+  const getUser = async () => {
+    await UserController.login({ username: 'string', password: 'string' });
+    return await UserController.currentUser();
+  }
 
   useEffect(() => {
-    PingController.ping()
-      .then(value => setResponse(value))
-  }, [response.greeting]);
+    getUser()
+      .then(value => setUser(value));
+  }, [user.id]);
+
   return (
     <div>
       <p>Welcome to next.js!</p>
-      <p>{response.greeting}</p>
       <p>
         <pre>
-          {JSON.stringify(response, undefined, 2)}
+          {JSON.stringify(user, undefined, 2)}
         </pre>
       </p>
     </div>
@@ -24,4 +31,3 @@ const IndexPage = () => {
 }
 
 export default IndexPage;
-

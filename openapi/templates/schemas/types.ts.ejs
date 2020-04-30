@@ -1,0 +1,41 @@
+<%
+const getType = value => {
+  if ('enum' in value && 'title' in value)
+    return `enums.${value.title}`
+  else if ('type' in value)
+    return value.type;
+  else if ('title' in value)
+    return value.title;
+  else
+    return 'any';
+}
+-%>
+/*
+** OpenAPI Client - TYPES
+*/
+
+import * as enums from './enums';
+<%
+Object.entries(openAPI.components.schemas).map(([key, value]) => {
+  let required = value.required;
+  if (value.enum === undefined) {
+-%>
+
+export interface <%= key %> {
+<%
+    Object.entries(value.properties).map(([key, value]) => {
+      let name = key;
+      let type = value.type === 'array' ? getType(value.items).concat('[]') : getType(value);
+      let isRequired = required !== undefined && required.includes(name);
+      if (!isRequired)
+        name = name.concat('?');
+-%>
+  <%= name %>: <%- type %>
+<%
+    })
+-%>
+}
+<%
+  }
+})
+-%>

@@ -1,0 +1,22 @@
+/*
+** OpenAPI Client - ENUMS
+*/
+<%
+Object.entries(openAPI.components.schemas).map(([key, value]) => {
+  let required = value.required;
+  if (value.enum !== undefined) {
+-%>
+
+export enum <%= key %> {
+<%
+    for (let enumKey of value.enum) {
+-%>
+  <%= enumKey.toUpperCase() %> = '<%- enumKey %>',
+<%
+    }
+-%>
+}
+<%
+  }
+})
+-%>

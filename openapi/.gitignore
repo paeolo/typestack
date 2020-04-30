@@ -4,9 +4,8 @@
 /coverage
 
 # production
-/dist
 /index.ts
-/schemas.d.ts
+/schemas
 /routes
 *.tsbuildinfo
 

@@ -11,7 +11,7 @@ import {
 
 import { UserRole } from '../components/jwt';
 import { Token, UserProfile, UserCredentials } from '../entity';
-import { required, requiredEnum } from '../utils';
+import { required, Enum } from '../utils';
 
 @model()
 @Entity()
@@ -26,8 +26,8 @@ export class User {
   @required()
   username: string;
 
-  @Column({type: "enum", enum: UserRole, default: UserRole.NONE})
-  @requiredEnum('UserRole', UserRole)
+  @Column({ type: "enum", enum: UserRole, default: UserRole.NONE })
+  @Enum({ title: 'UserRole', values: UserRole, required: true })
   role: UserRole
 
   @OneToOne(type => UserCredentials, { cascade: ['insert'] })

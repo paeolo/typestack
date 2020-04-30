@@ -1,53 +1,56 @@
 /* -- ENUM UTILS --
-*  Provide decorators to embed enums in the openAPI
-*  LB4 won't provide this due to Typescript limitations.
+*  Provide decorators to embed enums in the openAPI.
 *  See https://github.com/strongloop/loopback-next/issues/2911
-*  And https://github.com/strongloop/loopback-next/issues/3033
-*
-*  Usage:
-*  @propertyEnum('MyEnum', MyEnum)
-*  myProperty: MyEnum
+*  See https://github.com/strongloop/loopback-next/issues/3033
 *
 *  Limitation:
 *  Use it only with enums that are string typed.
-*  ie. whose values are string.
 */
 
 import { model, property } from '@loopback/repository';
 
-export function propertyEnum(enumName: string, enumType: Object) {
+export interface EnumOptions {
+  title: string,
+  values: Object | string[],
+  required?: boolean
+};
+
+export function Enum(options: EnumOptions) {
+  let values: string[];
+  if (Array.isArray(options.values))
+    values = options.values;
+  else
+    values = Object.values(options.values);
   return property({
-    type: ResolverForEnum(enumName, enumType)
+    type: ResolverForEnum({ enum: values, title: options.title }),
+    required: options.required
   });
 }
 
-export function arrayEnum(enumName: string, enumType: Object) {
+export function EnumArray(options: EnumOptions) {
+  let values: string[];
+  if (Array.isArray(options.values))
+    values = options.values;
+  else
+    values = Object.values(options.values);
   return property.array({
-    type: ResolverForEnum(enumName, enumType)
+    type: ResolverForEnum({ enum: values, title: options.title }),
+    required: options.required
   });
 }
 
-export function requiredEnum(enumName: string, enumType: Object) {
-  return property({
-    type: ResolverForEnum(enumName, enumType),
-    required: true
-  });
-}
+interface ResolverOptions {
+  enum: string[],
+  title: string,
+};
 
-export function requiredArrayEnum(enumName: string, enumType: Object) {
-  return property.array({
-    type: ResolverForEnum(enumName, enumType),
-    required: true
-  });
-}
-
-function ResolverForEnum(enumName: string, enumType: Object): Function {
-  let classEnum = { [enumName]: function () { } }
+function ResolverForEnum(options: ResolverOptions): Function {
+  let classEnum = { [options.title]: function () { } }
   model({
     jsonSchema: {
       type: 'string',
-      enum: Object.values(enumType)
+      enum: options.enum
     }
-  })(classEnum[enumName]);
-  return (() => classEnum[enumName]);
+  })(classEnum[options.title]);
+  return (() => classEnum[options.title]);
 }

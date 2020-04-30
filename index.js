@@ -8,10 +8,11 @@ const main = async () => {
   const dev = process.env.NODE_ENV === 'development';
   const port = process.env.PORT || 3000;
 
-  await loopback.main();
+  const api = await loopback.main();
   const client = await nextjs(dev, 'client');
 
   const server = express();
+  server.use('/api', api.requestHandler);
   server.use(express.static('client/static'));
   server.get('*', (req, res) => client.getRequestHandler()(req, res));
   server.listen(port, err => {
