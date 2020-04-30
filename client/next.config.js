@@ -1,4 +1,7 @@
-const path = require('path')
+const path = require('path');
+const dotenv = require('dotenv');
+
+dotenv.config({ path: path.resolve(__dirname, '../config.env') });
 
 module.exports = {
   webpack: (config, options) => {
@@ -16,6 +19,6 @@ module.exports = {
     return config;
   },
   publicRuntimeConfig: {
-    apiURL: process.env.API_URL
+    API_URL: process.env.API_URL
   },
 }
