@@ -20,7 +20,7 @@ export class PingController {
   /**
   ** A simple endpoint to bounce back http requests
   **/
-  @get('/ping', Returns(PingResponse))
+  @get('/ping', Returns(PingResponse, 'Return ping response'))
   ping() {
     return {
       greeting: 'Hello from LoopBack',
