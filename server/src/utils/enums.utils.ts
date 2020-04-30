@@ -8,6 +8,8 @@
 */
 
 import { model, property } from '@loopback/repository';
+import { OASEnhancer, OpenApiSpec, SchemaObject, asSpecEnhancer } from '@loopback/rest';
+import { bind } from '@loopback/core';
 
 export interface EnumOptions {
   title: string,
@@ -53,4 +55,21 @@ function ResolverForEnum(options: ResolverOptions): Function {
     }
   })(classEnum[options.title]);
   return (() => classEnum[options.title]);
+}
+
+@bind(asSpecEnhancer)
+export class CustomEnhancer implements OASEnhancer {
+  name = 'custom';
+
+  modifySpec(spec: OpenApiSpec): OpenApiSpec {
+    if (spec.components && spec.components.schemas) {
+      Object.entries(spec.components.schemas).map(([key, value]: [string, SchemaObject]) => {
+        if (value.enum) {
+          delete value.title;
+          delete value.additionalProperties;
+        }
+      })
+    }
+    return spec;
+  }
 }

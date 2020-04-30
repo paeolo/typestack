@@ -1,6 +1,6 @@
 import { AuthenticationComponent } from '@loopback/authentication';
 import { BootMixin } from '@loopback/boot';
-import { CoreBindings } from '@loopback/core';
+import { CoreBindings, createBindingFromClass } from '@loopback/core';
 import {
   AuthorizationComponent,
   AuthorizationBindings,
@@ -33,7 +33,7 @@ import {
   JWTComponent,
   AuthorizationPolicyComponent,
 } from './components';
-import { NodeENV } from './utils';
+import { NodeENV, CustomEnhancer } from './utils';
 
 export class LBApplication extends BootMixin(RestApplication) {
 
@@ -85,6 +85,7 @@ export class LBApplication extends BootMixin(RestApplication) {
       this.bind(RestExplorerBindings.CONFIG).to({
         path: '/explorer'
       });
+      this.add(createBindingFromClass(CustomEnhancer));
       this.component(RestExplorerComponent);
     }
   }
