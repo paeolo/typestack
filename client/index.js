@@ -8,8 +8,13 @@ const path = require('path');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const application = async (dev, directory) => {
-  if (process.env.API_URL === undefined)
-    throw new Error('Environment variable API_URL is undefined');
+  const envRequired = [
+    'API_URL',
+  ];
+  for (let key of envRequired) {
+    if (process.env[key] === undefined)
+      throw new Error(`Environment variable ${key} is undefined`);
+  }
   const nextjs = next({ dev: dev, dir: directory });
   await nextjs.prepare();
   return nextjs;

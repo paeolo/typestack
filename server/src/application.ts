@@ -8,7 +8,7 @@ import {
   AuthorizationDecision
 } from '@loopback/authorization';
 import {
-  RestApplication,
+  RestApplication, RestServerConfig,
 } from '@loopback/rest';
 import {
   RestExplorerBindings,
@@ -54,13 +54,6 @@ export class LBApplication extends BootMixin(RestApplication) {
   }
 
   private setupConfig() {
-    const required = [
-      'API_HOST', 'API_PORT', 'DB_HOST', 'DB_USER', 'DB_DATABASE', 'JWT_SECRET'
-    ];
-    for (let key of required) {
-      if (process.env[key] === undefined)
-        throw new Error(`Environment variable ${key} is undefined`);
-    }
     this.bind(CoreBindings.APPLICATION_CONFIG).to({
       rest: {
         host: process.env.API_HOST,
@@ -68,7 +61,7 @@ export class LBApplication extends BootMixin(RestApplication) {
         openApiSpec: {
           disabled: process.env.NODE_ENV !== NodeENV.DEVELOPMENT || undefined,
         },
-      },
+      } as RestServerConfig,
     });
   }
 
