@@ -2,10 +2,10 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build:client": "env-cmd -f ./config.env next build client",
     "build:server": "npm-run-all build:loopback build:codegen",
     "build:loopback": "lb-tsc --outDir server/dist -p server",
     "build:codegen": "node ./server/dist/codegen",
+    "build:client": "env-cmd --silent -f ./config.env next build client",
     "build": "npm-run-all build:server build:client",
     "dev": "NODE_ENV=development node .",
     "dev:client": "NODE_ENV=development node client",
