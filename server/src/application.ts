@@ -56,7 +56,7 @@ export class LBApplication extends BootMixin(RestApplication) {
   private setupConfig() {
     this.bind(CoreBindings.APPLICATION_CONFIG).to({
       rest: {
-        host: process.env.API_HOST,
+        host: process.env.API_HOST || 'localhost',
         port: Number.parseInt(process.env.API_PORT || '8888'),
         openApiSpec: {
           disabled: process.env.NODE_ENV !== NodeENV.DEVELOPMENT || undefined,
@@ -88,11 +88,7 @@ export class LBApplication extends BootMixin(RestApplication) {
       connectionOptions: {
         type: 'postgres',
         synchronize: true,
-        host: process.env.DB_HOST,
-        port: Number.parseInt(process.env.DB_PORT || '5432'),
-        username: process.env.DB_USER,
-        database: process.env.DB_DATABASE,
-        password: process.env.DB_PASSWORD
+        url: process.env.DATABASE_URL
       },
       entities: ['entity/*.js']
     }

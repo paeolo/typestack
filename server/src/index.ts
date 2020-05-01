@@ -5,11 +5,7 @@ import { LoggingBindings } from './components/logger';
 export async function main() {
 
   const envRequired = [
-    'API_HOST',
-    'API_PORT',
-    'DB_HOST',
-    'DB_USER',
-    'DB_DATABASE',
+    'DATABASE_URL',
     'JWT_SECRET'
   ];
   for (let key of envRequired) {

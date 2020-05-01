@@ -7,9 +7,9 @@ A Typescript starter based on NextJS and Loopback 4.
 - Some components in the back-end like authentication, authorization, typeORM and logging facilities.
 
 ## Dependencies
-- NodeJS
-- Yarn
-- PostgreSQL
+- nodeJS
+- yarn
+- postgreSQL
 
 ## Get started
 * cp misc/config.env .
@@ -22,13 +22,10 @@ either using the config.env file.
 
 ### Server
 
-* API_HOST
-* API_PORT
-* DB_HOST
-* DB_USER
-* DB_DATABASE
+* DATABASE_URL
 * JWT_SECRET
 
 ### Client
 
 * API_URL
+
