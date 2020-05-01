@@ -20,7 +20,7 @@ import {
 
 export type LoggingComponentOptions = {
   level: string,
-  directory: string,
+  path: string,
   stack_trace: boolean
 };
 

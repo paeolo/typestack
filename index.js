@@ -7,6 +7,7 @@ const nextjs = require('./client');
 const path = require('path');
 
 const main = async () => {
+  process.env.MONOLITHIC = true;
   const dev = process.env.NODE_ENV === 'development';
   const port = process.env.PORT || 3000;
 
@@ -24,10 +25,12 @@ const main = async () => {
 }
 
 if (require.main === module) {
-  dotenv.config({ path: path.resolve(__dirname, 'config.env') });
+  dotenv.config({ path: path.resolve(__dirname, 'client.env') });
+  dotenv.config({ path: path.resolve(__dirname, 'server.env') });
   main()
     .catch(err => {
       console.error('Cannot start the application.', err);
       process.exit(1);
     })
 }
+

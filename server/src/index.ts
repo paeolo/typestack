@@ -22,7 +22,8 @@ export async function main() {
   const host = await app.restServer.get(RestBindings.HOST);
   const logger = await app.get(LoggingBindings.LOGGER);
 
-  logger.info(`Server is listening ${host} on port ${port}`);
+  if (!process.env.MONOLITHIC)
+    logger.info(`Server is listening ${host} on port ${port}`);
 
   return app;
 }

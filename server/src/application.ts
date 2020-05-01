@@ -56,11 +56,16 @@ export class LBApplication extends BootMixin(RestApplication) {
   private setupConfig() {
     this.bind(CoreBindings.APPLICATION_CONFIG).to({
       rest: {
-        host: process.env.API_HOST || 'localhost',
-        port: Number.parseInt(process.env.API_PORT || '8888'),
+        host: process.env.HOST || '0.0.0.0',
+        port: Number.parseInt(process.env.PORT || '8888'),
+        listenOnStart: !process.env.MONOLITHIC,
         openApiSpec: {
           disabled: process.env.NODE_ENV !== NodeENV.DEVELOPMENT || undefined,
         },
+        cors: {
+          origin: true,
+          credentials: true
+        }
       } as RestServerConfig,
     });
   }
@@ -88,18 +93,17 @@ export class LBApplication extends BootMixin(RestApplication) {
       connectionOptions: {
         type: 'postgres',
         synchronize: true,
-        url: process.env.DATABASE_URL
+        url: process.env.DATABASE_URL,
       },
       entities: ['entity/*.js']
-    }
-    ]);
+    }]);
     this.component(TypeOrmComponent);
   }
 
   private setupLoggingComponent() {
     this.configure<LoggingComponentConfig>(LoggingBindings.COMPONENT).to({
       options: {
-        directory: process.env.LOG_DIRECTORY || path.join(__dirname, '../../logs'),
+        path: process.env.LOG_PATH || path.join(__dirname, '../../logs'),
         level: process.env.LOG_LEVEL || LOGGER_LEVEL.INFO,
         stack_trace: process.env.NODE_ENV === NodeENV.DEVELOPMENT
       },

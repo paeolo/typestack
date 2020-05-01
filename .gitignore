@@ -10,7 +10,8 @@
 
 # production
 /logs
-/config.env
+/server.env
+/client.env
 
 # misc
 .DS_Store

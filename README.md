@@ -28,4 +28,3 @@ either using the config.env file.
 ### Client
 
 * API_URL
-

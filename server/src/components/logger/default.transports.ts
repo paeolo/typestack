@@ -19,7 +19,7 @@ export namespace DefaultFactory {
 
   export function createCombined(options: LoggingComponentOptions) {
     return new transports.File({
-      dirname: options.directory,
+      dirname: options.path,
       filename: 'combined.log',
       level: options.level,
       format: format.combine(

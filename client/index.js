@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const express = require('express');
 const next = require('next');
 const path = require('path');
+const fs = require('fs');
 
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
@@ -29,9 +30,12 @@ const main = async () => {
 
   const server = express();
   if (dev) {
+    const envConfig = dotenv.parse(fs.readFileSync(
+      path.resolve(__dirname, '../server.env'))
+    );
     const api = {
-      host: process.env.API_HOST,
-      port: process.env.API_PORT
+      host: envConfig.HOST,
+      port: envConfig.PORT
     };
     server.use(
       '/api',
@@ -52,7 +56,7 @@ const main = async () => {
 module.exports = application;
 
 if (require.main === module) {
-  dotenv.config({ path: path.resolve(__dirname, '../config.env') });
+  dotenv.config({ path: path.resolve(__dirname, '../client.env') });
   main()
     .catch(err => {
       console.error('Cannot start the application.', err);

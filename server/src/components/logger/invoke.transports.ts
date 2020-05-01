@@ -45,7 +45,7 @@ export namespace InvokeFactory {
     };
 
     return new transports.File({
-      dirname: options.directory,
+      dirname: options.path,
       filename: 'combined.log',
       level: options.level,
       format: format.combine(
@@ -70,7 +70,7 @@ export namespace InvokeFactory {
     };
 
     return new transports.File({
-      dirname: options.directory,
+      dirname: options.path,
       filename: 'error.log',
       level: LOGGER_LEVEL.ERROR,
       format: format.combine(

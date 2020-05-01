@@ -62,6 +62,8 @@ export class JWTService {
       path: "/",
       maxAge: ms(expiresIn),
       sameSite: "lax",
+      secure: process.env.COOKIE_SECURE !== undefined,
+      domain: process.env.COOKIE_DOMAIN,
       httpOnly: true
     });
   }
@@ -88,6 +90,8 @@ export class JWTService {
       response.cookie(type, '', {
         path: "/",
         sameSite: "lax",
+        secure: process.env.COOKIE_SECURE !== undefined,
+        domain: process.env.COOKIE_DOMAIN,
         httpOnly: true
       });
     }

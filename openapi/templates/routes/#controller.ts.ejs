@@ -79,14 +79,13 @@ for (let route of routes) {
       try {
       const response = await request
         .<%- route.operationType %>(OpenAPI.options.url + <%- path %>)
+        .withCredentials()
       <%_ if ('requestBody' in operation) { _%>
         .send(value)
       <%_ } if (contentType !== undefined) { _%>
         .set('Accept', '<%- contentType %>')
       <%_ } for (let queryParameter of queryParameters) { _%>
         .query({<%- queryParameter %> : <%- queryParameter %>})
-      <%_ } if (operation.security !== undefined) { _%>
-        .withCredentials()
       <%_ } _%>
       resolve(response.body);
       } catch (error) {
