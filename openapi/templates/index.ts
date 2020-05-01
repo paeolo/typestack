@@ -8,6 +8,6 @@ export interface OpenAPIOptions {
 
 export namespace OpenAPI {
   export const options: OpenAPIOptions = {
-    url: ''
+    url: '/api'
   }
 }

@@ -7,7 +7,8 @@ import getConfig from 'next/config'
 
 const { publicRuntimeConfig } = getConfig()
 
-OpenAPI.options.url = publicRuntimeConfig.API_URL;
+if (publicRuntimeConfig.API_URL !== undefined)
+  OpenAPI.options.url = publicRuntimeConfig.API_URL;
 
 export default ({ Component, pageProps }) => {
   return <Component {...pageProps} />
