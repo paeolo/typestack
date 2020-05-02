@@ -12,7 +12,7 @@ A Typescript starter based on NextJS and Loopback 4.
 - postgreSQL
 
 ## Get started
-* cp misc/config.env .
+* cp misc/{client,server}.env .
 * yarn install && yarn build && yarn dev
 * Take a coffee and code.
 
