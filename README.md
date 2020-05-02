@@ -18,7 +18,7 @@ A Typescript starter based on NextJS and Loopback 4.
 
 ## Configuration
 You need to provide the following environment variables, either directly,
-either using the config.env file.
+either using the server.env and client.env files.
 
 ### Server
 
