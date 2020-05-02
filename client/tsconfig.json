@@ -6,15 +6,16 @@
       "dom.iterable",
       "esnext"
     ],
-    "baseUrl": ".",
+    "baseUrl": "src",
     "paths": {
       "@openapi/*": [
-        "../openapi/*"
+        "../../openapi/*"
       ]
     },
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
+    "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -33,4 +34,3 @@
     "**/*.tsx"
   ],
 }
-

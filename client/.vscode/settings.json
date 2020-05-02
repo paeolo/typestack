@@ -10,11 +10,12 @@
     "**/.svn": true,
     "**/*.css": true,
     "**/CVS": true,
-    "build": true,
+    ".next": true,
     "**/node_modules": true,
     "package-lock.json": true,
     "tsconfig.tsbuildinfo": true
   },
+  "typescript.preferences.importModuleSpecifier": "relative",
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true
 }
