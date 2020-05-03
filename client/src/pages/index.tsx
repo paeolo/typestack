@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 
-import { useStores } from '../hooks';
 import { useObserver } from 'mobx-react-lite';
+import { useInjection } from '../hooks/use-injection';
+import { UserStore } from '../stores';
+import { StoresBindings } from '../contexts/keys';
 
 const IndexPage = () => {
 
-  const { userStore } = useStores();
+  const userStore = useInjection<UserStore>(StoresBindings.USER);
 
   useEffect(() => {
     userStore.login({ username: 'string', password: 'string' })

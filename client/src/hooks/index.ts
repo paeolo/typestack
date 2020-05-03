@@ -1,1 +1,1 @@
-export * from './use-stores'
+export * from './use-injection'
