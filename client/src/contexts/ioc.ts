@@ -1,5 +1,5 @@
+import "reflect-metadata"; // Import only once
 import { Container } from 'inversify';
-import "reflect-metadata";
 
 import { StoresBindings } from './keys';
 import { UserStore } from '../stores';
