@@ -1,6 +1,10 @@
 import React from 'react'
-import { UserStore } from '../stores'
+import { container } from './ioc'
+import { StoresBindings } from './keys';
+import { UserStore } from '../stores';
 
-export const storesContext = React.createContext({
-  userStore: new UserStore(),
-})
+export const InversifyContext = React.createContext({ container: container });
+
+export const StoresContext = React.createContext({
+  userStore: container.get<UserStore>(StoresBindings.USER),
+});

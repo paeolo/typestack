@@ -6,6 +6,9 @@
       "dom.iterable",
       "esnext"
     ],
+    "types": [
+      "reflect-metadata"
+    ],
     "baseUrl": "src",
     "paths": {
       "@openapi/*": [
@@ -15,6 +18,7 @@
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
+    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,

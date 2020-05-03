@@ -27,10 +27,10 @@ import {
   LOGGER_LEVEL,
   DefaultFactory,
   InvokeFactory,
-  SECURITY_SCHEME_SPEC,
   JWTComponentConfig,
   JWTBindings,
   JWTComponent,
+  SECURITY_SCHEME_SPEC,
   AuthorizationPolicyComponent,
 } from './components';
 import { NodeENV, CustomEnhancer } from './utils';

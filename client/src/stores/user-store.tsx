@@ -1,7 +1,9 @@
 import { observable, action, computed } from 'mobx';
 import { UserController } from '@openapi/routes'
 import { User, LoginCredentials } from '@openapi/schemas'
+import { injectable } from 'inversify';
 
+@injectable()
 export class UserStore {
 
   @observable currentUser: User | undefined = undefined;
