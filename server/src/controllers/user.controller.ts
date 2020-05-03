@@ -182,7 +182,7 @@ export class UserController {
   /**
   ** Count number of users
   **/
-  @get('/count', ReturnsWithType('number', 'Total count of users.'))
+  @get('/count', ReturnsWithType('number', 'Total count of users.').withSecurity())
   @logger(LOGGER_LEVEL.INFO)
   @authenticate('basic')
   @authorize({ allowedRoles: [UserRole.ADMIN] })
