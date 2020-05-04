@@ -16,7 +16,6 @@ const main = async () => {
 
   const server = express();
   server.use('/api', api.requestHandler);
-  server.use(express.static('client/static'));
   server.get('*', (req, res) => client.getRequestHandler()(req, res));
   server.listen(port, err => {
     if (err) throw err;

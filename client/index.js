@@ -45,7 +45,6 @@ const main = async () => {
       })
     );
   }
-  server.use(express.static(`./static`));
   server.get('*', (req, res) => handler(req, res));
   server.listen(port, err => {
     if (err) throw err;
