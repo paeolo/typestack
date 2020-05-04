@@ -1,6 +1,6 @@
 import LoginForm from './LoginForm';
 
-export const Login = () => {
+export const LoginPage = () => {
   return (
     <section className="hero is-primary is-fullheight">
       <div className="hero-body">
@@ -16,4 +16,4 @@ export const Login = () => {
   );
 }
 
-export default Login;
+export default LoginPage;

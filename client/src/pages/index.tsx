@@ -1,8 +1,8 @@
-import { Login } from '../components/Login';
+import { LoginPage } from '../components/Login';
 
 const IndexPage = () => {
   return (
-    <Login />
+    <LoginPage />
   );
 }
 
