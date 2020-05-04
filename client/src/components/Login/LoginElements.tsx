@@ -33,7 +33,9 @@ export const LoginCheckbox = () => {
 export const LoginButton = () => {
   return (
     <div className="field">
-      <button className="button is-success">
+      <button
+        className="button is-success"
+        type="submit" >
         Login
     </button>
     </div>
