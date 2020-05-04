@@ -30,11 +30,16 @@ export const LoginCheckbox = () => {
   );
 }
 
-export const LoginButton = () => {
+export interface LoginButtonProps {
+  error: boolean;
+}
+
+export const LoginButton = (props: LoginButtonProps) => {
+  const statusClass = props.error ? 'is-danger' : 'is-success';
   return (
     <div className="field">
       <button
-        className="button is-success"
+        className={'button ' + statusClass}
         type="submit" >
         Login
     </button>

@@ -1,12 +1,16 @@
+import { useState } from 'react';
 import { useFormik } from 'formik';
+
 import { LoginField, LoginCheckbox, LoginButton } from "./LoginElements";
 import { useInjection } from '../../hooks';
 import { UserStore } from '../../stores';
 import { StoresBindings } from '../../contexts';
 
+
 export const LoginForm = () => {
 
   const userStore = useInjection<UserStore>(StoresBindings.USER);
+  const [error, setError] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -14,15 +18,20 @@ export const LoginForm = () => {
       password: ''
     },
     onSubmit: async values => {
-      userStore.login({
-        username: values.username,
-        password: values.password
-      })
+      try {
+        await userStore.login({
+          username: values.username,
+          password: values.password
+        })
+        setError(false);
+      } catch (error) {
+        setError(true);
+      }
     }
   });
 
   return (
-    <form className="box" onSubmit={formik.handleSubmit}>
+    <form className="box" onSubmit={formik.handleSubmit} >
       <LoginField label='Username' icon='fa fa-user'>
         <input id='username' className="input"
           type='text'
@@ -42,7 +51,7 @@ export const LoginForm = () => {
         />
       </LoginField>
       <LoginCheckbox />
-      <LoginButton />
+      <LoginButton error={error} />
     </form >
   );
 }
