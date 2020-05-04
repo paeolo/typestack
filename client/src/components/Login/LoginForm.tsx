@@ -4,10 +4,10 @@ export const LoginForm = () => {
   return (
     <form className="box">
       <LoginField
-        label='Email'
-        type='email'
-        placeholder='e.g. alexjohnson@gmail.com'
-        icon='fa fa-envelope'
+        label='Username'
+        type='text'
+        placeholder='e.g. swaggman'
+        icon='fa fa-user'
       />
       <LoginField
         label='Password'

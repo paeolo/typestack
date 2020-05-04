@@ -27,7 +27,7 @@ export const LoginCheckbox = () => {
   return (
     <div className="field">
       <label className="checkbox">
-        <input type="checkbox" required /> Remember me
+        <input type="checkbox" /> Remember me
     </label>
     </div>
   );
