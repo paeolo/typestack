@@ -1,9 +1,9 @@
+import React from "react";
 
 export interface LoginFieldProps {
   label: string;
-  type: string;
-  placeholder: string;
   icon: string;
+  children: React.ReactElement;
 }
 
 export const LoginField = (props: LoginFieldProps) => {
@@ -11,10 +11,7 @@ export const LoginField = (props: LoginFieldProps) => {
     <div className="field">
       <label className="label">{props.label}</label>
       <div className="control has-icons-left">
-        <input className="input"
-          type={props.type}
-          placeholder={props.placeholder}
-          required />
+        {props.children}
         <span className="icon is-small is-left">
           <i className={props.icon}></i>
         </span>
