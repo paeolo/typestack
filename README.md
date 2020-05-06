@@ -29,6 +29,12 @@ either using the server.env and client.env files.
 
 * API_URL
 
+## I'm developing on Windows 10
+Fine,
+* Be sure to install node-gyp manually with "yarn global add node-gyp"
+* Be sure to install cross-env with "yarn add --dev cross-env"
+* In package.json file, prefix every "NODE_ENV=development" occurence with "cross-env "
+
 ## Take a tour!
 This is a starter pack and as so, it doesn't come with any already coded end-user features. Still, you can take a tour!
 
