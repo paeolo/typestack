@@ -5,11 +5,14 @@ import {
   config,
   ContextTags,
   LifeCycleObserver,
+  inject,
 } from '@loopback/core';
 import { ConnectionManager, ConnectionOptions } from 'typeorm';
-import { TypeOrmBindings } from './keys';
-
 import path from 'path';
+import { Logger } from 'winston';
+
+import { TypeOrmBindings } from './keys';
+import { LoggingBindings } from '../logger';
 
 export type TypeOrmConfig = {
   connectionOptions: ConnectionOptions,
@@ -24,8 +27,8 @@ export class TypeOrmComponent implements Component, LifeCycleObserver {
   readonly connectionManager = new ConnectionManager();
 
   constructor(
-    @config()
-    readonly typeOrmConfigs: TypeOrmConfig[] = [],
+    @config() readonly typeOrmConfigs: TypeOrmConfig[] = [],
+    @inject(LoggingBindings.LOGGER) private logger: Logger
   ) { }
 
   async start() {
@@ -41,6 +44,7 @@ export class TypeOrmComponent implements Component, LifeCycleObserver {
       };
       const connection = this.connectionManager.create(options);
       await connection.connect();
+      this.logger.info('TypeORM component has started');
     }
   }
 
