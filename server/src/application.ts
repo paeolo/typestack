@@ -149,7 +149,7 @@ export class LBApplication extends BootMixin(RestApplication) {
     this.configure<WorkersConfig>(WorkersBindings.COMPONENT).to({
       spawnWorker: () => spawn(new Worker('./worker')),
       options: {
-        size: 4,
+        size: 2,
         concurrency: 1,
         maxQueuedJobs: undefined
       }

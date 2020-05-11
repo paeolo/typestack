@@ -1,3 +1,10 @@
-import threads, { Thread } from 'threads';
+import threads from 'threads';
+import {
+  FunctionThread,
+  ModuleThread
+} from 'threads/dist/types/master';
 
-export type WorkerPool = threads.Pool<Thread>;
+export * from 'threads/dist/master/pool';
+
+export type ArbitraryThreadType = FunctionThread<any, any> & ModuleThread<any>;
+export type WorkerPool = threads.Pool<ArbitraryThreadType>;

@@ -10,17 +10,13 @@ import {
 } from '@loopback/core';
 import { Logger } from 'winston';
 import { Pool } from 'threads';
-import {
-  PoolOptions,
-  Thread
-} from 'threads/dist/master/pool';
 
 import { WorkersBindings } from './keys';
-import { WorkerPool } from './types';
+import { WorkerPool, ArbitraryThreadType, PoolOptions, PoolEventType } from './types';
 import { LoggingBindings } from '../logger';
 
 export type WorkersConfig = {
-  spawnWorker: () => Promise<Thread>
+  spawnWorker: () => Promise<ArbitraryThreadType>
   options: PoolOptions
 }
 
@@ -38,14 +34,21 @@ export class WorkersComponent implements Component, LifeCycleObserver {
     @inject(LoggingBindings.LOGGER) private logger: Logger
   ) {
     this.pool = Pool(config.spawnWorker, config.options);
-    this.pool.events().subscribe(event => {
-      this.logger.info(
-        `Pool event:${Object.entries(event).map(([key, value]) => ` ${key}=${value}`)}`
-      )
-    });
+    this.setupLogging();
     this.bindings = [
       Binding.bind(WorkersBindings.POOL).toDynamicValue(() => this.pool)
     ];
+  }
+
+  private setupLogging() {
+    const infoEvents = [
+      PoolEventType.initialized,
+      PoolEventType.terminated,
+      PoolEventType.taskQueueDrained
+    ];
+    this.pool.events()
+      .filter(event => infoEvents.includes(event.type))
+      .subscribe(event => { this.logger.info(`Pool event: ${event.type}`) })
   }
 
   async stop() {
