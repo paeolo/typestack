@@ -37,6 +37,7 @@
     "react-dom": "^16.13.1",
     "reflect-metadata": "^0.1.13",
     "superagent": "^5.2.2",
+    "threads": "^1.4.1",
     "typeorm": "^0.2.24",
     "winston": " ^3.2.1",
     "yaml": "^1.9.2"

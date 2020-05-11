@@ -14,6 +14,7 @@ import {
   RestExplorerBindings,
   RestExplorerComponent
 } from '@loopback/rest-explorer';
+import { spawn, Worker } from 'threads';
 
 import path from 'path';
 import { MainSequence } from './sequence';
@@ -32,13 +33,20 @@ import {
   JWTComponent,
   SECURITY_SCHEME_SPEC,
   AuthorizationPolicyComponent,
+  WorkersBindings,
+  WorkersConfig,
+  WorkersComponent
 } from './components';
 import { NodeENV, CustomEnhancer } from './utils';
 
 export class LBApplication extends BootMixin(RestApplication) {
 
   constructor() {
-    super();
+    super({
+      shutdown: {
+        signals: ['SIGINT'],
+      },
+    });
     this.projectRoot = __dirname;
 
     this.setupConfig();
@@ -72,10 +80,11 @@ export class LBApplication extends BootMixin(RestApplication) {
 
   private setupComponents() {
     this.setupOpenAPI();
-    this.setupTypeORM();
     this.setupLoggingComponent();
+    this.setupTypeORM();
     this.setupJWTComponent();
     this.setupAuthorizationComponent();
+    this.setupWorkersComponent();
   }
 
   private setupOpenAPI() {
@@ -134,5 +143,17 @@ export class LBApplication extends BootMixin(RestApplication) {
       });
     this.component(AuthorizationComponent);
     this.component(AuthorizationPolicyComponent);
+  }
+
+  private setupWorkersComponent() {
+    this.configure<WorkersConfig>(WorkersBindings.COMPONENT).to({
+      spawnWorker: () => spawn(new Worker('./worker')),
+      options: {
+        size: 4,
+        concurrency: 1,
+        maxQueuedJobs: undefined
+      }
+    });
+    this.component(WorkersComponent);
   }
 }
