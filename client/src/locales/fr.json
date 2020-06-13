@@ -2,5 +2,10 @@
   "header": {
     "title": "Mon site.",
     "description": "Un site propulsé par ReactJS."
+  },
+  "navbar": {
+    "connection": "Connexion",
+    "signout": "Déconnexion",
+    "register": "Inscription"
   }
 }

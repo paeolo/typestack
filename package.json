@@ -51,6 +51,7 @@
     "@fortawesome/fontawesome-free": "^5.13.0",
     "@loopback/build": "^5.0.1",
     "@types/bcrypt": "^3.0.0",
+    "@types/classnames": "^2.2.10",
     "@types/cookie-parser": "^1.4.2",
     "@types/ejs": "^3.0.2",
     "@types/fs-extra": "^8.1.0",

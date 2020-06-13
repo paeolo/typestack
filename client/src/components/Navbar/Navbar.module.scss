@@ -1,0 +1,6 @@
+@import "~bulma/sass/utilities/_all.sass";
+@import '~bulma/sass/components/navbar.sass';
+
+.paddingTop {
+  padding-top: $navbar-height
+}
