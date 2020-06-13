@@ -3,6 +3,9 @@
   "configurations": [
     {
       "type": "node",
+      "env": {
+        "NODE_ENV": "development"
+      },
       "request": "launch",
       "name": "Launch",
       "program": "${workspaceFolder}/index.js"
