@@ -7,10 +7,10 @@ import { property, PropertyDefinition } from '@loopback/repository';
 import {
   getModelSchemaRef,
   OperationObject,
+  param,
   ContentObject,
   ResponsesObject,
-  RequestBodyObject,
-  SecurityRequirementObject
+  SecurityRequirementObject,
 } from '@loopback/rest';
 
 import {
@@ -50,6 +50,19 @@ export function getTypeSchema(type: string) {
     'application/json': {
       schema: {
         type: type,
+      }
+    }
+  }
+}
+
+export function getTypedArraySchema(type: string) {
+  return {
+    'application/json': {
+      schema: {
+        type: 'array',
+        items: {
+          type: type
+        }
       }
     }
   }
@@ -110,30 +123,30 @@ export function ReturnsWithCode(code: number, description?: string) {
     })
 }
 
-export function ReturnsArray<T extends object>(modelCtor: Function & { prototype: T }) {
-  return new OperationWrapper(getArraySchema(modelCtor));
+export function ReturnsArray<T extends object>(modelCtor: Function & { prototype: T }, description?: string) {
+  return new OperationWrapper(getArraySchema(modelCtor), description);
 }
 
-export class RequestBodyWrapper implements RequestBodyObject {
-
-  public readonly content: ContentObject;
-  public description?: string;
-
-  constructor(content: ContentObject, description?: string) {
-    this.content = content;
-    this.description = description;
-  }
-
-  public withDescription(description: string): RequestBodyWrapper {
-    this.description = description;
-    return this;
-  }
+export function ReturnsTypedArray(type: string, description?: string) {
+  return new OperationWrapper(getTypedArraySchema(type), description);
 }
 
-export function Content<T extends object>(modelCtor: Function & { prototype: T }) {
-  return new RequestBodyWrapper(getSchema(modelCtor));
-}
-
-export function ContentArray<T extends object>(modelCtor: Function & { prototype: T }) {
-  return new RequestBodyWrapper(getArraySchema(modelCtor));
+export function queryObject<T extends object>(
+  name: string, modelCtor: Function & { prototype: T },
+  options?: { required: boolean }
+) {
+  const schemaRef = getModelSchemaRef(modelCtor);
+  delete schemaRef.definitions;
+  return param({
+    name: name,
+    in: 'query',
+    content: {
+      'application/json': {
+        schema: {
+          ...schemaRef
+        }
+      }
+    },
+    required: options?.required,
+  });
 }

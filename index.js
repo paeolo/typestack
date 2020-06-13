@@ -2,21 +2,20 @@
 
 const dotenv = require('dotenv');
 const express = require('express');
-const loopback = require('./server/dist/');
-const nextjs = require('./client');
+const createApi = require('./server/dist/');
+const createClient = require('./client');
 const path = require('path');
 
 const main = async () => {
   process.env.MONOLITHIC = true;
-  const dev = process.env.NODE_ENV === 'development';
   const port = process.env.PORT || 3000;
 
-  const api = await loopback.main();
-  const client = await nextjs(dev, 'client');
+  const api = await createApi.main();
+  const client = await createClient('client', false, false);
 
   const server = express();
   server.use('/api', api.requestHandler);
-  server.get('*', (req, res) => client.getRequestHandler()(req, res));
+  server.get('*', (req, res) => client(req, res));
   server.listen(port, err => {
     if (err) throw err;
     console.log(`> Ready on http://localhost:${port}`);
@@ -32,4 +31,3 @@ if (require.main === module) {
       process.exit(1);
     })
 }
-

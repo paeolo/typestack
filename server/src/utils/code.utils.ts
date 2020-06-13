@@ -9,6 +9,10 @@ export namespace PGErrorCode {
   export const UNIQUE_VIOLATION = '23505';
 }
 
+export namespace TypeOrmError {
+  export const ENTITY_NOT_FOUND = 'EntityNotFound';
+}
+
 export namespace NodeENV {
   export const DEVELOPMENT = 'development'
 }

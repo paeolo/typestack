@@ -12,6 +12,7 @@
 /logs
 /server.env
 /client.env
+/ormconfig.json
 
 # misc
 .DS_Store

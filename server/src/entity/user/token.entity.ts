@@ -6,8 +6,8 @@ import {
   JoinColumn
 } from "typeorm";
 
-import { TokenType } from '../components/jwt';
-import { User } from '../entity';
+import { TokenType } from '../../components/jwt';
+import { User } from '../user';
 
 @Entity()
 export class Token {

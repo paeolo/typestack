@@ -5,7 +5,7 @@ import {
   Column,
 } from "typeorm";
 
-import { required } from '../utils';
+import { required } from '../../utils';
 
 @Entity()
 @model()

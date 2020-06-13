@@ -9,8 +9,8 @@ export enum TokenType {
 }
 
 export enum UserRole {
-  NONE = 'none',
-  ADMIN = 'admin'
+  MEMBER = 'MEMBER',
+  ADMIN = 'ADMIN'
 }
 
 export type SecuritySchemeObjects = {

@@ -32,7 +32,7 @@ export function executeRequestHandler(
 ): Promise<boolean> {
   const responseWritten = onFinishedAsync(context.response).then(() => true);
   const handlerFinished = new Promise<boolean>((resolve, reject) => {
-    handler(context.request, context.response, err => {
+    handler(context.request, context.response, (err: any) => {
       if (err) {
         reject(err);
       } else {

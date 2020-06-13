@@ -3,7 +3,6 @@
 */
 <%
 Object.entries(openAPI.components.schemas).map(([key, value]) => {
-  let required = value.required;
   if (value.enum !== undefined) {
 -%>
 

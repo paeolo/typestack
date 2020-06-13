@@ -18,7 +18,7 @@ import {
 
 import cookieParser from 'cookie-parser';
 
-import { executeRequestHandler } from './utils';
+import { executeRequestHandler, TypeOrmError } from './utils';
 import { LoggingBindings, LogFn } from './components/logger';
 
 const SequenceActions = RestBindings.SequenceActions;
@@ -48,6 +48,9 @@ export class MainSequence implements SequenceHandler {
     } catch (err) {
       if (err.code === AUTHENTICATION_STRATEGY_NOT_FOUND || err.code === USER_PROFILE_NOT_FOUND) {
         Object.assign(err, { statusCode: 401 });
+      }
+      if (err.name === TypeOrmError.ENTITY_NOT_FOUND) {
+        Object.assign(err, { statusCode: 404 });
       }
       this.reject(context, err);
     }

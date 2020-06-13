@@ -9,9 +9,9 @@ import {
   OneToMany
 } from "typeorm";
 
-import { UserRole } from '../components/jwt';
-import { Token, UserProfile, UserCredentials } from '../entity';
-import { required, Enum } from '../utils';
+import { UserRole } from '../../components/jwt';
+import { Token, UserProfile, UserCredentials } from '../user';
+import { required, enumProperty } from '../../utils';
 
 @model()
 @Entity()
@@ -26,8 +26,8 @@ export class User {
   @required()
   username: string;
 
-  @Column({ type: "enum", enum: UserRole, default: UserRole.NONE })
-  @Enum({ title: 'UserRole', values: UserRole, required: true })
+  @Column({ type: "enum", enum: UserRole, default: UserRole.MEMBER })
+  @enumProperty({ title: 'UserRole', values: UserRole, required: true })
   role: UserRole
 
   @OneToOne(type => UserCredentials, { cascade: ['insert'] })

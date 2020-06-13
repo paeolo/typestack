@@ -1,0 +1,7 @@
+{
+   "type": "postgres",
+   "url": "postgresql://postgres@localhost:5432/postgres",
+   "entities": [
+      "server/dist/entity/**/*.js"
+   ]
+}

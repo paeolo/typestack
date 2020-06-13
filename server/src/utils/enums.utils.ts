@@ -17,7 +17,7 @@ export interface EnumOptions {
   required?: boolean
 };
 
-export function Enum(options: EnumOptions) {
+export function enumProperty(options: EnumOptions) {
   let values: string[];
   if (Array.isArray(options.values))
     values = options.values;
@@ -29,7 +29,7 @@ export function Enum(options: EnumOptions) {
   });
 }
 
-export function EnumArray(options: EnumOptions) {
+export function enumArray(options: EnumOptions) {
   let values: string[];
   if (Array.isArray(options.values))
     values = options.values;
@@ -71,5 +71,20 @@ export class CustomEnhancer implements OASEnhancer {
       })
     }
     return spec;
+  }
+}
+
+export function createEnumSpec(title: string, values: Object | string[]) {
+  let enumValues: string[];
+  if (Array.isArray(values))
+    enumValues = values;
+  else
+    enumValues = Object.values(values);
+
+  return {
+    title: title,
+    additionalProperties: false,
+    type: 'string',
+    enum: enumValues
   }
 }

@@ -3,7 +3,7 @@
   "license": "MIT",
   "scripts": {
     "build:server": "npm-run-all build:loopback build:codegen",
-    "build:loopback": "lb-tsc --outDir server/dist -p server",
+    "build:loopback": "rimraf server/dist && lb-tsc --outDir server/dist -p server",
     "build:codegen": "node ./server/dist/codegen",
     "build:client": "env-cmd --silent -f ./client.env next build client",
     "build": "npm-run-all build:server build:client",
@@ -22,11 +22,13 @@
     "@loopback/rest": "^3.2.1",
     "@loopback/rest-explorer": "^2.0.4",
     "bcrypt": "^4.0.1",
+    "class-validator": "^0.12.2",
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "formik": "^2.1.4",
     "http-proxy-middleware": "^1.0.3",
+    "inquirer": "^7.1.0",
     "inversify": "^5.0.1",
     "jsonwebtoken": "^8.5.1",
     "mobx": "^5.15.4",
@@ -37,7 +39,6 @@
     "react-dom": "^16.13.1",
     "reflect-metadata": "^0.1.13",
     "superagent": "^5.2.2",
-    "threads": "^1.4.1",
     "typeorm": "^0.2.24",
     "winston": " ^3.2.1",
     "yaml": "^1.9.2"
@@ -50,6 +51,7 @@
     "@types/cookie-parser": "^1.4.2",
     "@types/ejs": "^3.0.2",
     "@types/fs-extra": "^8.1.0",
+    "@types/inquirer": "^6.5.0",
     "@types/jsonwebtoken": "^8.3.9",
     "@types/klaw": "^3.0.1",
     "@types/ms": "^0.7.31",
@@ -63,6 +65,7 @@
     "json-schema-ref-parser": "^8.0.0",
     "klaw": "^3.0.0",
     "node-sass": "^4.14.0",
-    "npm-run-all": "^4.1.5"
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.2"
   }
 }

@@ -23,7 +23,7 @@ export class LoggerInfoProvider
   ) { }
 
   /**
-   * @returns LoggerInfo
+   * @returns An object containing metadata about logging.
    */
   value(): LoggerInfo | undefined {
     if (!this.controllerClass || !this.methodName) return;
