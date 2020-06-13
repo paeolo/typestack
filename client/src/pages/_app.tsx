@@ -2,23 +2,36 @@
 ** See https://nextjs.org/docs/advanced-features/custom-app
 */
 
-import 'mobx-react-lite/batchingForReactDom'
-import '../assets/sass/main.scss'
+import '../assets/sass/main.scss';
+import 'mobx-react-lite/batchingForReactDom';
 
-import { OpenAPI } from "@openapi/."
-import { useStaticRendering } from 'mobx-react-lite'
-import getConfig from 'next/config'
+import { OpenAPI } from "@openapi/.";
+import { useStaticRendering } from 'mobx-react-lite';
+import { AppProps } from 'next/app';
+import { useEffect } from 'react';
+import { useInjection } from '../hooks';
+import { UserStore } from '../stores';
+import { StoresBindings } from '../container';
 
+function AppInit() {
+  if (process.env.API_URL !== undefined) {
+    OpenAPI.options.url = process.env.API_URL;
+  }
 
-const { publicRuntimeConfig } = getConfig();
-
-if (publicRuntimeConfig.API_URL !== undefined)
-  OpenAPI.options.url = publicRuntimeConfig.API_URL;
-
-if (typeof window === 'undefined') {
-  useStaticRendering(true);
+  if (typeof window === 'undefined') {
+    useStaticRendering(true);
+  }
 }
 
-export default ({ Component, pageProps }) => {
+AppInit();
+
+export default ({ Component, pageProps }: AppProps) => {
+
+  const userStore = useInjection<UserStore>(StoresBindings.USER);
+
+  useEffect(() => {
+    userStore.autologin();
+  }, []);
+
   return <Component {...pageProps} />
 }

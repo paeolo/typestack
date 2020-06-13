@@ -13,6 +13,9 @@
     "paths": {
       "@openapi/*": [
         "../../openapi/*"
+      ],
+      "@components/*": [
+        "./components/*"
       ]
     },
     "allowJs": true,

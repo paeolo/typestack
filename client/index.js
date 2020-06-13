@@ -6,30 +6,37 @@ const next = require('next');
 const path = require('path');
 const fs = require('fs');
 
+const cookieParser = require('cookie-parser');
+const sslRedirect = require('heroku-ssl-redirect');
+const { localeMiddleware } = require('./middleware/locale-middleware');
+const { removeTrailingSlashes } = require('./middleware/trailing-slashes');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
-const application = async (dev, directory) => {
-  const envRequired = [
-    'API_URL',
-  ];
+const checkEnvironment = (envRequired) => {
   for (let key of envRequired) {
     if (process.env[key] === undefined)
       throw new Error(`Environment variable ${key} is undefined`);
   }
-  const nextjs = next({ dev: dev, dir: directory });
-  await nextjs.prepare();
-  return nextjs;
 };
 
-const main = async () => {
-  const port = process.env.PORT || 3000;
-  const dev = process.env.NODE_ENV === 'development';
+const createServer = async (directory, proxyApi, listenOnStart) => {
 
-  const nextjs = await application(dev, __dirname);
-  const handler = nextjs.getRequestHandler();
+  checkEnvironment([
+    'API_URL',
+  ]);
+
+  const dev = process.env.NODE_ENV === 'development';
+  const port = process.env.PORT || 3000;
+
+  const nextServer = next({ dev: dev, dir: directory });
+  await nextServer.prepare();
+  const handler = nextServer.getRequestHandler();
 
   const server = express();
-  if (dev) {
+  if (process.env.HTTPS_REDIRECT) {
+    server.use(sslRedirect());
+  }
+  if (proxyApi) {
     const envConfig = dotenv.parse(fs.readFileSync(
       path.resolve(__dirname, '../server.env'))
     );
@@ -45,18 +52,26 @@ const main = async () => {
       })
     );
   }
+  server.use(cookieParser());
+  server.use(localeMiddleware);
+  server.use(removeTrailingSlashes);
   server.get('*', (req, res) => handler(req, res));
-  server.listen(port, err => {
-    if (err) throw err;
-    console.log(`> Ready on http://localhost:${port}`);
-  })
+  if (listenOnStart) {
+    server.listen(port, err => {
+      if (err) throw err;
+      console.log(`> Ready on http://localhost:${port}`);
+    })
+  }
+  return server;
 }
 
-module.exports = application;
+module.exports = createServer;
 
 if (require.main === module) {
   dotenv.config({ path: path.resolve(__dirname, '../client.env') });
-  main()
+  const proxyApi = process.env.NODE_ENV === 'development';
+
+  createServer(__dirname, proxyApi, true)
     .catch(err => {
       console.error('Cannot start the application.', err);
       process.exit(1);

@@ -1,0 +1,25 @@
+export const DefaultsType = {
+  colors: [
+    "primary",
+    "success",
+    "info",
+    "warning",
+    "danger",
+    "light",
+    "dark",
+    "white",
+    "black",
+    "link",
+  ] as const,
+  shades: [
+    "black-bis",
+    "black-ter",
+    "grey-darker",
+    "grey-dark",
+    "grey",
+    "grey-light",
+    "grey-lighter",
+    "white-ter",
+    "white-bis",
+  ] as const,
+};
