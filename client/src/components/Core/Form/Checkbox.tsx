@@ -1,5 +1,7 @@
-import React from "react";
+import React, { ComponentProps } from "react";
 
-export const Checkbox = props => <input type="checkbox" {...props} />;
+export type CheckboxProps = Omit<ComponentProps<'input'>, 'type'>;
+
+export const Checkbox: React.FC<CheckboxProps> = props => <input type="checkbox" {...props} />;
 
 Checkbox.displayName = "Checkbox";

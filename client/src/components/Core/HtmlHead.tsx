@@ -1,12 +1,12 @@
 import Head from 'next/head';
 import { useTranslate } from '../../hooks';
 
-interface HtmlHeadPros {
+interface HtmlHeadProps {
   title?: string;
   description?: string;
 }
 
-export const HtmlHead = (props: HtmlHeadPros) => {
+export const HtmlHead = (props: HtmlHeadProps) => {
 
   const { locale, t } = useTranslate();
 

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import styles from './Navbar.module.scss';
-import { Navbar } from './NavBar';
+import Navbar from './Navbar';
 
 export const WithNavbar: React.FC = props => {
   return (
