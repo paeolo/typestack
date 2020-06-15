@@ -36,14 +36,15 @@ Fine,
 * In package.json file, prefix every "NODE_ENV=development" occurence with "cross-env "
 
 ## Take a tour!
-This is a starter pack and as so, it doesn't come with any already coded end-user features. Still, you can take a tour!
 
 * Build you application using 'yarn build'
 * Start LB4 and NextJS altogether in development mode using 'yarn dev'
 * Go to http://localhost:3000/api/explorer/
 * Expand the '/user/register' endpoint and click on 'Try it out'
-* Fill username, password, firstName and lastName and click on 'Execute'
+* Fill username and password and click on 'Execute'
 * Go to http://localhost:3000/
-* Fill username and password and click on Login.
-* Your firstName and lastName appears, impressive!
+* Go to Signin page
+* Fill username and password and click on Signin.
+* You are logged, impressive!
+* Try to register an user using the register page, it works too.
 
