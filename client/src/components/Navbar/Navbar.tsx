@@ -27,7 +27,7 @@ export default () => {
           }
           {!userStore.isLogged &&
             <Link href='/signin' passHref>
-              <Navbar.Item>{t('navbar.connection')}</Navbar.Item>
+              <Navbar.Item>{t('navbar.signin')}</Navbar.Item>
             </Link>
           }
           {userStore.isLogged &&

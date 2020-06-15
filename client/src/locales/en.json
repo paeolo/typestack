@@ -1,10 +1,10 @@
 {
   "header": {
-    "title": "My website.",
-    "description": "A ReactJS powered website."
+    "title": "My website",
+    "description": "My description"
   },
   "navbar": {
-    "connection": "Login",
+    "signin": "Sign in",
     "signout": "Sign out",
     "register": "Register"
   }
