@@ -1,7 +1,7 @@
 import React from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
 
-import { IndexPage } from "@components/Pages";
+import { RegisterPage } from "@components/Pages";
 import { WithLocale, getLocaleProps, getLocalePaths } from "@components/I18n";
 import { HtmlHead } from "@components/Core";
 import { WithNavbar } from "@components/Navbar";
@@ -11,7 +11,7 @@ const Index = () => {
     <React.Fragment>
       <HtmlHead />
       <WithNavbar>
-        <IndexPage />
+        <RegisterPage />
       </WithNavbar>
     </React.Fragment>
   );
