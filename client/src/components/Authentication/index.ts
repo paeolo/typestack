@@ -1,17 +1,29 @@
+import { GetServerSidePropsContext } from 'next';
+import { ParsedUrlQuery } from 'querystring';
+
 import { UserController, withCookie, User, UserRole } from '@openapi/.';
 import { AuthenticationProps } from './WithAuthentication';
-import { IncomingMessage } from 'http';
+import { getCookieFromResponse } from './utils';
 
 export * from './WithAuthentication';
 
 export async function getAuthenticationProps(
-  request: IncomingMessage, authorizedRoles?: UserRole[]): Promise<AuthenticationProps> {
+  context: GetServerSidePropsContext<ParsedUrlQuery>, authorizedRoles?: UserRole[]): Promise<AuthenticationProps> {
 
   let currentUser: User | null;
+  let cookie = context.req.headers.cookie;
+
   try {
-    currentUser = await withCookie(request.headers.cookie)(UserController.currentUser());
+    currentUser = await withCookie(cookie)(UserController.currentUser());
   } catch {
-    currentUser = null;
+    try {
+      const response = await UserController.autologin().set('Cookie', cookie.split(';'));
+      cookie = getCookieFromResponse(response);
+      currentUser = await withCookie(cookie)(UserController.currentUser());
+      context.res.setHeader('Set-Cookie', response.get('Set-Cookie'));
+    } catch {
+      currentUser = null;
+    }
   }
 
   return {

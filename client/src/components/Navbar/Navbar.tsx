@@ -46,7 +46,15 @@ export default () => {
             </Link>
           }
           {userStore.isLogged &&
-            <NavbarSignout />
+            <Navbar.Item dropdown hoverable>
+              <Navbar.Link arrowless>
+                {userStore.currentUser.username}
+              </Navbar.Link>
+              <Navbar.Dropdown>
+                <NavbarSignout />
+              </Navbar.Dropdown>
+            </Navbar.Item>
+
           }
           {userStore.isAdmin &&
             <Link href='/admin' passHref>

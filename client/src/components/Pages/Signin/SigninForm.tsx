@@ -11,6 +11,7 @@ import {
   Input,
   Heading,
   Help,
+  Checkbox,
 } from "@components/Core/Form";
 import {
   Section,
@@ -28,14 +29,15 @@ export const SigninForm = () => {
   const formik = useFormik({
     initialValues: {
       username: '',
-      password: ''
+      password: '',
+      remember: true
     },
     onSubmit: async values => {
       try {
         await UserController.login({
           username: values.username,
           password: values.password
-        });
+        }, values.remember);
         router.replace('/[lang]', `/${locale}`);
         setError(false);
       } catch {
@@ -70,6 +72,17 @@ export const SigninForm = () => {
               onChange={formik.handleChange}
               type="password"
               placeholder="********" />
+          </Control>
+        </Field>
+        <Field>
+          <Control>
+            <Label>
+              <Checkbox
+                id='remember'
+                checked={formik.values.remember}
+                onChange={formik.handleChange}
+              /> Remember me
+            </Label>
           </Control>
         </Field>
         <Divider />

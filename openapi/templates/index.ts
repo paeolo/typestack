@@ -25,7 +25,7 @@ export type Request<T> = superagent.SuperAgentRequest & Promise<{body : T}>;
  * @exemple `const body = await send(request);`
  *
  */
-export const send = <T extends Request<unknown>>(request: T): Promise<BodyType<T>> =>
+export const obtain = <T extends Request<unknown>>(request: T): Promise<BodyType<T>> =>
   request.then(response => response.body);
 
 /**
