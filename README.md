@@ -7,7 +7,7 @@ A Typescript starter based on NextJS and Loopback 4.
 - Polyglot (https://airbnb.io/polyglot.js/)
 - JWT (https://fr.wikipedia.org/wiki/JSON_Web_Token)
 - TypeORM (https://typeorm.io/#/)
-- Bulma CSS(https://bulma.io/)
+- Bulma CSS (https://bulma.io/)
 - Winston (https://github.com/winstonjs/winston)
 - Codegen
 
