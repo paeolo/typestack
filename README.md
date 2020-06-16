@@ -1,5 +1,5 @@
 # Typestack
-A Typescript starter based on NextJS and Loopback 4.
+A full-stack template based on NextJS and Loopback 4.
 
 ## What's inside?
 - Loopback 4 (https://loopback.io/doc/en/lb4/)
