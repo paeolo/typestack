@@ -9,7 +9,7 @@ A full-stack template based on NextJS and Loopback 4.
 - TypeORM (https://typeorm.io/#/)
 - Bulma CSS (https://bulma.io/)
 - Winston (https://github.com/winstonjs/winston)
-- Codegen
+- Codegen (Custom)
 
 
 ## Dependencies
