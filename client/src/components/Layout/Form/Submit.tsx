@@ -12,7 +12,7 @@ export const Submit = (props: SubmitProps) => {
     <Field kind="group" align="right">
       <Control>
         <Button
-          color={props.error ? "danger" : "success"}
+          color={props.error ? "danger" : "light"}
           state={props.loading ? "loading" : "active"}
           type="submit">
           Submit

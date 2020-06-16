@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import React from "react";
 
 export type NavbarBurgerProps = {
-  active?: string;
+  active?: boolean;
   onClick?: React.MouseEventHandler;
   className?: string;
 };
@@ -19,7 +19,11 @@ export const NavbarBurger: React.FC<NavbarBurgerProps> = props => {
       )}
       onClick={onClick}
       role="button"
-      {...rest}>
+      {...rest}
+    >
+      <span />
+      <span />
+      <span />
     </div>
   );
 }

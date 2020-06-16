@@ -10,6 +10,7 @@ import {
   Control,
   Input,
   Heading,
+  Help,
 } from "@components/Core/Form";
 import {
   Section,
@@ -76,7 +77,11 @@ export const RegisterForm = () => {
           </Control>
         </Field>
         <Divider />
-        <Submit error={error} />
+        {
+          error &&
+          <Help color="danger">An error occured. Try again</Help>
+        }
+        <Submit />
       </form >
     </Section >
   )

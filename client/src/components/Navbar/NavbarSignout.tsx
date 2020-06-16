@@ -15,7 +15,9 @@ export const NavbarSignout = () => {
   }
 
   return (
-    <Navbar.Item onClick={onClick}>
+    <Navbar.Item
+      tab
+      onClick={onClick}>
       {t('navbar.signout')}
     </Navbar.Item>
   );

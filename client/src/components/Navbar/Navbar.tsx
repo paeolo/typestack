@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 import styles from './Navbar.module.scss';
 import { useObserver } from 'mobx-react-lite';
@@ -15,19 +15,34 @@ export default () => {
 
   const userStore = useInjection<UserStore>(StoresBindings.USER);
   const { locale, t } = useTranslate();
+  const [active, setActive] = useState(false);
 
   return useObserver(() =>
     <Navbar fixed="top" className={classNames(styles.boxShadow)}>
-      <Navbar.Menu>
+      <Navbar.Brand>
+        <Navbar.Item href="/">
+          <img
+            src="/alien.png"
+            alt=""
+            role="presentation"
+            width="28"
+            height="28"
+          />
+        </Navbar.Item>
+        <Navbar.Burger
+          active={active}
+          onClick={() => setActive(!active)} />
+      </Navbar.Brand>
+      <Navbar.Menu active={active}>
         <Navbar.Segment align="end">
           {!userStore.isLogged &&
             <Link href='/register' passHref>
-              <Navbar.Item>{t('navbar.register')}</Navbar.Item>
+              <Navbar.Item tab>{t('navbar.register')}</Navbar.Item>
             </Link>
           }
           {!userStore.isLogged &&
             <Link href='/signin' passHref>
-              <Navbar.Item>{t('navbar.signin')}</Navbar.Item>
+              <Navbar.Item tab>{t('navbar.signin')}</Navbar.Item>
             </Link>
           }
           {userStore.isLogged &&
@@ -35,7 +50,7 @@ export default () => {
           }
           {userStore.isAdmin &&
             <Link href='/admin' passHref>
-              <Navbar.Item>{t('navbar.admin')}</Navbar.Item>
+              <Navbar.Item tab>{t('navbar.admin')}</Navbar.Item>
             </Link>
           }
           <Navbar.Item dropdown hoverable>
