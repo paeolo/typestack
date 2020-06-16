@@ -1,6 +1,6 @@
 import { observable, action, computed } from 'mobx';
-import { obtain, UserController } from '@openapi/.'
-import { User, LoginCredentials, UserRole } from '@openapi/schemas'
+import { obtain, UserController } from '@openapi/.';
+import { User, LoginCredentials, UserRole } from '@openapi/schemas';
 import { injectable } from 'inversify';
 
 @injectable()
@@ -25,14 +25,13 @@ export class UserStore {
 
   @action
   autologin = async () => {
-    if (this.currentUser === undefined) {
+    if (this.currentUser !== undefined) {
       try {
+        await UserController.autologin();
         this.currentUser = await obtain(UserController.currentUser());
       } catch (error) {
-        try {
-          await UserController.autologin();
-          this.currentUser = await obtain(UserController.currentUser());
-        } catch { }
+        if (error.status == 401)
+          this.currentUser = undefined;
       }
     }
   }

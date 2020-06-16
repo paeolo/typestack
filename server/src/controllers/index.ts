@@ -1,2 +1,2 @@
-export * from './ping.controller';
+export * from './info.controller';
 export * from './user.controller';

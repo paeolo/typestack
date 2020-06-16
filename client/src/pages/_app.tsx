@@ -5,7 +5,8 @@
 import '../assets/sass/main.scss';
 import 'mobx-react-lite/batchingForReactDom';
 
-import { OpenAPI } from "@openapi/.";
+import ms from 'ms';
+import { OpenAPI, obtain, InfoController } from "@openapi/.";
 import { useStaticRendering } from 'mobx-react-lite';
 import { AppProps } from 'next/app';
 import { useEffect } from 'react';
@@ -28,10 +29,17 @@ AppInit();
 export default ({ Component, pageProps }: AppProps) => {
 
   const userStore = useInjection<UserStore>(StoresBindings.USER);
+  useEffect(() => { initInterval() }, []);
 
-  useEffect(() => {
-    userStore.autologin();
-  }, []);
+  async function initInterval() {
+
+    const info = await obtain(InfoController.info());
+    const interval = ms(info.AUTH_ACCESS_EXPIRES);
+    setInterval(
+      userStore.autologin,
+      interval
+    );
+  }
 
   return <Component {...pageProps} />
 }
