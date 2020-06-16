@@ -14,47 +14,48 @@ export type NavbarItemContainerProps = {
   href?: string;
 };
 
-export const NavbarItemContainer: React.FC<NavbarItemContainerProps> = props => {
+export const NavbarItemContainer: React.FC<NavbarItemContainerProps> = React.forwardRef(
+  (props, ref) => {
+    const {
+      active,
+      initialClassName,
+      dropdown,
+      expanded,
+      hoverable,
+      managed,
+      onClick,
+      tab,
+      up,
+      href,
+      ...rest
+    } = props;
 
-  const {
-    active,
-    initialClassName,
-    dropdown,
-    expanded,
-    hoverable,
-    managed,
-    onClick,
-    tab,
-    up,
-    href,
-    ...rest
-  } = props;
+    const className = classNames(
+      "navbar-item",
+      {
+        "has-dropdown": dropdown,
+        "has-dropdown-up": up,
+        "is-active": active,
+        "is-expanded": expanded,
+        "is-hoverable": hoverable,
+        "is-tab": tab,
+      },
+      initialClassName,
+    );
 
-  const className = classNames(
-    "navbar-item",
-    {
-      "has-dropdown": dropdown,
-      "has-dropdown-up": up,
-      "is-active": active,
-      "is-expanded": expanded,
-      "is-hoverable": hoverable,
-      "is-tab": tab,
-    },
-    initialClassName,
-  );
+    if (dropdown === true) {
+      return (
+        <div className={className} {...rest} />
+      );
+    }
 
-  if (dropdown === true) {
     return (
-      <div className={className} {...rest} />
+      <a
+        className={className}
+        onClick={onClick}
+        href={href}
+        {...rest}
+      />
     );
   }
-
-  return (
-    <a
-      className={className}
-      onClick={onClick}
-      href={href}
-      {...rest}
-    />
-  );
-}
+);

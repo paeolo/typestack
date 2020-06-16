@@ -30,7 +30,7 @@ export const SigninForm = () => {
     initialValues: {
       username: '',
       password: '',
-      remember: true
+      remember: false
     },
     onSubmit: async values => {
       try {
