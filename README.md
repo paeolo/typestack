@@ -2,9 +2,15 @@
 A Typescript starter based on NextJS and Loopback 4.
 
 ## What's inside?
-- A mono-repository with NextJS and Loopback 4 preconfigured.
-- A codegen script to link front and back based on openAPI.
-- Some components in the back-end like authentication, authorization, typeORM, and logging facilities.
+- Loopback 4 (https://loopback.io/doc/en/lb4/)
+- NextJS (https://nextjs.org/)
+- Polyglot (https://airbnb.io/polyglot.js/)
+- JWT (https://fr.wikipedia.org/wiki/JSON_Web_Token)
+- TypeORM (https://typeorm.io/#/)
+- Bulma CSS(https://bulma.io/)
+- Winston (https://github.com/winstonjs/winston)
+- Codegen
+
 
 ## Dependencies
 - nodeJS
@@ -31,9 +37,9 @@ either using the server.env and client.env files.
 
 ## I'm developing on Windows 10
 Fine,
-* Be sure to install node-gyp manually with "yarn global add node-gyp"
-* Be sure to install cross-env with "yarn add --dev cross-env"
-* In package.json file, prefix every "NODE_ENV=development" occurence with "cross-env "
+* Install node-gyp with "yarn global add node-gyp"
+* Install cross-env with "yarn add --dev cross-env"
+* In your package.json file, prefix every "NODE_ENV=development" occurence with "cross-env "
 
 ## Take a tour!
 
