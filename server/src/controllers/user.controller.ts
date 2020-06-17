@@ -37,7 +37,7 @@ import { authorize } from '@loopback/authorization';
 export class NewUser {
   @required({ jsonSchema: { examples: ['john.smith'] } })
   username: string;
-  @required()
+  @required({ jsonSchema: { minLength: 6 } })
   password: string;
 }
 

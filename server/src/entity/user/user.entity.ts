@@ -12,7 +12,7 @@ import {
 import { UserRole } from '../../components/jwt';
 import { Token, UserProfile, UserCredentials } from '../user';
 import { required, enumProperty } from '../../utils';
-import { MinLength, ValidateNested } from 'class-validator';
+import { MinLength } from 'class-validator';
 
 @model()
 @Entity()
@@ -35,7 +35,6 @@ export class User {
 
   @OneToOne(type => UserCredentials, { cascade: ['insert'] })
   @JoinColumn()
-  @ValidateNested()
   credentials: UserCredentials;
 
   @OneToOne(type => UserProfile, { cascade: true })
