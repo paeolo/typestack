@@ -21,7 +21,7 @@
     "@loopback/core": "^2.3.0",
     "@loopback/rest": "^3.2.1",
     "@loopback/rest-explorer": "^2.0.4",
-    "bcrypt": "^4.0.1",
+    "bcrypt": "^5.0.0",
     "class-validator": "^0.12.2",
     "classnames": "^2.2.6",
     "cookie-parser": "^1.4.5",
