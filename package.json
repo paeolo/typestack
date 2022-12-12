@@ -26,7 +26,7 @@
     "classnames": "^2.2.6",
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "formik": "^2.1.4",
     "heroku-ssl-redirect": "^0.0.4",
     "http-proxy-middleware": "^1.0.4",
