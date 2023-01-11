@@ -22,7 +22,7 @@
     "@loopback/rest": "^3.2.1",
     "@loopback/rest-explorer": "^2.0.4",
     "bcrypt": "^4.0.1",
-    "class-validator": "^0.12.2",
+    "class-validator": "^0.14.0",
     "classnames": "^2.2.6",
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
